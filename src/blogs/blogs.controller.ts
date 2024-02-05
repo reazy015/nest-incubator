@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto, GetBlogsQueryDto } from './blogs.dto';
@@ -33,22 +34,23 @@ export class BlogsController {
   }
 
   @Post()
+  @HttpCode(201)
   async createBlog(@Body() blog: CreateBlogDto) {
     const res = await this.blogsService.createBlog(blog);
     return res;
   }
 
   @Put('/:id')
+  @HttpCode(204)
   async updateBlog(
     @Param('id') id: string,
     @Body() updateBlogDto: CreateBlogDto,
   ) {
-    const updated = await this.blogsService.updateBlog(id, updateBlogDto);
-
-    return updated;
+    await this.blogsService.updateBlog(id, updateBlogDto);
   }
 
   @Delete('/:id')
+  @HttpCode(204)
   async deleteBlog(@Param('id') id: string) {
     const deleted = await this.blogsService.deleteBlog(id);
 

@@ -16,7 +16,7 @@ export class BlogsService {
       .sort({ [query.sortBy]: query.sortDirection })
       .skip(query.pageSize * (query.pageNumber - 1))
       .limit(query.pageSize)
-      .exec();
+      .lean();
   }
 
   async getTotalBlogsCount(): Promise<number> {
@@ -24,15 +24,11 @@ export class BlogsService {
   }
 
   async createBlog(blog: CreateBlogDto): Promise<Blog> {
-    try {
-      const createdBlog = new this.blogModel({
-        ...blog,
-      });
+    const createdBlog = new this.blogModel({
+      ...blog,
+    });
 
-      return createdBlog.save();
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
+    return createdBlog.save();
   }
 
   async updateBlog(id: string, blogDto: CreateBlogDto): Promise<BlogDocument> {
