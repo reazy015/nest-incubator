@@ -17,7 +17,12 @@ import { TestingController } from './testing/testing.controller';
     MongooseModule.forRoot(process.env.DB_URL),
     MongooseModule.forFeature([{ name: Blog.name, schema: BlogSchema }]),
   ],
-  controllers: [AppController, BlogsController, PostsController, TestingController],
+  controllers: [
+    AppController,
+    BlogsController,
+    PostsController,
+    TestingController,
+  ],
   providers: [AppService, BlogsService],
 })
 export class AppModule {}
