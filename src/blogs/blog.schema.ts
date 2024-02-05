@@ -1,8 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Exclude } from 'class-transformer';
+import mongoose, { HydratedDocument } from 'mongoose';
 
-@Schema()
+@Schema({
+  toJSON: {
+    transform: (_, ret) => {
+      ret.id = ret._id;
+
+      delete ret._id;
+      delete ret.__v;
+    },
+  },
+})
+@Exclude()
 export class Blog {
+  _id: mongoose.Types.ObjectId;
   @Prop({ required: true })
   name: string;
 

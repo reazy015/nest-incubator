@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './blog.schema';
 import { Model } from 'mongoose';
@@ -9,14 +9,16 @@ export class BlogsService {
   constructor(@InjectModel(Blog.name) private blogModel: Model<BlogDocument>) {}
 
   async findAllBlogs(query: GetBlogsQueryDto): Promise<Blog[]> {
-    return this.blogModel
+    const blogs = await this.blogModel
       .find({
         name: { $regex: query.searchNameTerm, $options: 'i' },
       })
       .sort({ [query.sortBy]: query.sortDirection })
       .skip(query.pageSize * (query.pageNumber - 1))
       .limit(query.pageSize)
-      .lean();
+      .exec();
+
+    return blogs;
   }
 
   async getTotalBlogsCount(): Promise<number> {
