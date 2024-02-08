@@ -1,20 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Exclude } from 'class-transformer';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Post, PostDocument, PostSchema } from '../posts/post.schema';
 
 @Schema({
   toJSON: {
+    versionKey: false,
+    virtuals: true,
     transform: (_, ret) => {
-      ret.id = ret._id;
-
       delete ret._id;
-      delete ret.__v;
     },
   },
 })
-@Exclude()
 export class Blog {
-  _id: mongoose.Types.ObjectId;
   @Prop({ required: true })
   name: string;
 
@@ -29,8 +26,19 @@ export class Blog {
 
   @Prop({ required: true, default: new Date().toISOString() })
   createdAt: string;
+
+  static validateId(id: string): boolean {
+    return mongoose.Types.ObjectId.isValid(id);
+  }
+
+  // @Prop({ type: [PostSchema], default: [], ref: Post.name })
+  // posts: PostDocument[];
 }
 
 export type BlogDocument = HydratedDocument<Blog>;
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);
+
+BlogSchema.statics = {
+  validateId: Blog.validateId,
+};

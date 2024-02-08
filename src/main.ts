@@ -14,13 +14,13 @@ async function bootstrap() {
         return new BadRequestException({
           errorMessages: errors.map((error) => ({
             field: error.property,
-            message: Object.values(error.constraints)[0],
+            message: Object.values(error.constraints ?? [])[0],
           })),
         });
       },
     }),
   );
   const configService = app.get(ConfigService);
-  await app.listen(configService.get('PORT'));
+  await app.listen(configService.get('PORT') ?? 5000);
 }
 bootstrap();

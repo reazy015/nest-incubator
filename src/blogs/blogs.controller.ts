@@ -8,15 +8,22 @@ import {
   Put,
   Query,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto, GetBlogsQueryDto } from './blogs.dto';
+import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
+import { PostsService } from 'src/posts/posts.service';
 
 @Controller('blogs')
 export class BlogsController {
-  constructor(private readonly blogsService: BlogsService) {}
+  constructor(
+    private readonly blogsService: BlogsService,
+    private readonly postsService: PostsService,
+  ) {}
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   async getAllBlogs(
     @Query()
     query: GetBlogsQueryDto,
@@ -33,15 +40,43 @@ export class BlogsController {
     };
   }
 
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  async getSingleBlog(@Param('id') id: string) {
+    const blog = await this.blogsService.findBlogById(id);
+
+    return blog;
+  }
+
+  @Get('/:id/posts')
+  async getAllBlogsPosts(
+    @Param('id') id: string,
+    @Query() query: GetPostsQueryDto,
+  ) {
+    const res = await this.postsService.findAllPostsByBlogId(id, query);
+
+    return res;
+  }
+
   @Post()
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   async createBlog(@Body() blog: CreateBlogDto) {
     const res = await this.blogsService.createBlog(blog);
     return res;
   }
 
+  @Post('/:id/posts')
+  async createPostForSpecificBlog(
+    @Param('id') id: string,
+    @Body() post: CreatePostDto,
+  ) {
+    const res = await this.blogsService.createPost(id, post);
+
+    return res;
+  }
+
   @Put('/:id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async updateBlog(
     @Param('id') id: string,
     @Body() updateBlogDto: CreateBlogDto,
@@ -50,7 +85,7 @@ export class BlogsController {
   }
 
   @Delete('/:id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteBlog(@Param('id') id: string) {
     const deleted = await this.blogsService.deleteBlog(id);
 
