@@ -30,6 +30,7 @@ export declare class PostsService {
     private blogModel;
     private postModel;
     constructor(blogModel: Model<BlogDocument>, postModel: Model<PostDocument>);
+    getSinglePostById(id: string): Promise<PostDocument>;
     findAllPostsByBlogId(blogId: string, query: GetPostsQueryDto): Promise<PostDocument[]>;
     getAllPosts(query: GetPostsQueryDto): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Post> & Post & {
         _id: import("mongoose").Types.ObjectId;
@@ -38,5 +39,6 @@ export declare class PostsService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
+    getTotalPostsCount(): Promise<number>;
     deleteAllPosts(): Promise<boolean>;
 }

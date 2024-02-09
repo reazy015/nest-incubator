@@ -22,7 +22,18 @@ let PostsController = class PostsController {
     }
     async getAllPosts(query) {
         const posts = await this.postsService.getAllPosts(query);
-        return posts;
+        const totalCount = await this.postsService.getTotalPostsCount();
+        return {
+            pagesCount: Math.ceil(totalCount / query.pageSize),
+            page: query.pageNumber,
+            pageSize: query.pageSize,
+            totalCount,
+            items: posts,
+        };
+    }
+    async getSinglePost(id) {
+        const post = await this.postsService.getSinglePostById(id);
+        return post;
     }
 };
 exports.PostsController = PostsController;
@@ -34,6 +45,14 @@ __decorate([
     __metadata("design:paramtypes", [posts_dto_1.GetPostsQueryDto]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getAllPosts", null);
+__decorate([
+    (0, common_1.Get)('/:id'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "getSinglePost", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])

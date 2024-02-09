@@ -23,6 +23,10 @@ let PostsService = class PostsService {
         this.blogModel = blogModel;
         this.postModel = postModel;
     }
+    async getSinglePostById(id) {
+        const post = this.postModel.findById(id);
+        return post;
+    }
     async findAllPostsByBlogId(blogId, query) {
         const isValidId = blog_schema_1.Blog.validateId(blogId);
         if (!isValidId) {
@@ -54,6 +58,9 @@ let PostsService = class PostsService {
             .limit(query.pageSize)
             .exec();
         return posts;
+    }
+    async getTotalPostsCount() {
+        return await this.postModel.countDocuments();
     }
     async deleteAllPosts() {
         const deleted = await this.postModel.deleteMany();

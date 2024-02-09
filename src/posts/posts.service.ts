@@ -12,6 +12,12 @@ export class PostsService {
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
   ) {}
 
+  async getSinglePostById(id: string): Promise<PostDocument> {
+    const post = this.postModel.findById(id);
+
+    return post;
+  }
+
   async findAllPostsByBlogId(
     blogId: string,
     query: GetPostsQueryDto,
@@ -59,6 +65,10 @@ export class PostsService {
       .exec();
 
     return posts;
+  }
+
+  async getTotalPostsCount(): Promise<number> {
+    return await this.postModel.countDocuments();
   }
 
   async deleteAllPosts(): Promise<boolean> {

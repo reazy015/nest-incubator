@@ -28,11 +28,20 @@ import { PostsService } from 'src/posts/posts.service';
 export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
-    getAllPosts(query: GetPostsQueryDto): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
+    getAllPosts(query: GetPostsQueryDto): Promise<{
+        pagesCount: number;
+        page: number;
+        pageSize: number;
+        totalCount: number;
+        items: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
+            _id: import("mongoose").Types.ObjectId;
+        }> & import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
+            _id: import("mongoose").Types.ObjectId;
+        } & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }>)[];
+    }>;
+    getSinglePost(id: string): Promise<import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
         _id: import("mongoose").Types.ObjectId;
-    }> & import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
-        _id: import("mongoose").Types.ObjectId;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    }>;
 }
