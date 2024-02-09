@@ -51,7 +51,7 @@ export class PostsService {
       );
     }
 
-    const blog = await this.blogModel.findById(blogId).exec();
+    const blog = await this.blogModel.findById(blogId);
 
     if (!blog) {
       throw new HttpException(
@@ -85,7 +85,10 @@ export class PostsService {
     return posts;
   }
 
-  async getTotalPostsCount(): Promise<number> {
+  async getTotalPostsCount(blogId?: string): Promise<number> {
+    if (blogId) {
+      return await this.postModel.find({ blogId }).countDocuments();
+    }
     return await this.postModel.countDocuments();
   }
 

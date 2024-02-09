@@ -44,7 +44,7 @@ let PostsService = class PostsService {
                 errorMessage: 'Invalid blog Id',
             }, common_1.HttpStatus.BAD_REQUEST);
         }
-        const blog = await this.blogModel.findById(blogId).exec();
+        const blog = await this.blogModel.findById(blogId);
         if (!blog) {
             throw new common_1.HttpException({
                 errorMessage: 'Not found',
@@ -69,7 +69,10 @@ let PostsService = class PostsService {
             .exec();
         return posts;
     }
-    async getTotalPostsCount() {
+    async getTotalPostsCount(blogId) {
+        if (blogId) {
+            return await this.postModel.find({ blogId }).countDocuments();
+        }
         return await this.postModel.countDocuments();
     }
     async deleteSinglePostById(id) {
