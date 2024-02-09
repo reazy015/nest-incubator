@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "nest_js",
   "builds": [
     {
       "src": "src/main.ts",
@@ -9,8 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/main.ts",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      "dest": "src/main.ts"
     }
   ]
 }
