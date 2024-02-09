@@ -34,16 +34,16 @@ export declare const LikeSchema: mongoose.Schema<Like, mongoose.Model<Like, any,
 }, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Like, mongoose.Document<unknown, {}, mongoose.FlatRecord<Like>> & mongoose.FlatRecord<Like> & {
     _id: mongoose.Types.ObjectId;
 }>;
-export declare class ExtendedLikeInfo {
+export declare class ExtendedLikesInfo {
     likesCount: number;
     dislikesCount: number;
     myStatus: string;
     newestLikes: LikeDocument;
 }
-export type ExtendedLikeInfoDocument = HydratedDocument<ExtendedLikeInfo>;
-export declare const ExtendedLikeInfoSchema: mongoose.Schema<ExtendedLikeInfo, mongoose.Model<ExtendedLikeInfo, any, any, any, mongoose.Document<unknown, any, ExtendedLikeInfo> & ExtendedLikeInfo & {
+export type ExtendedLikesInfoDocument = HydratedDocument<ExtendedLikesInfo>;
+export declare const ExtendedLikeInfoSchema: mongoose.Schema<ExtendedLikesInfo, mongoose.Model<ExtendedLikesInfo, any, any, any, mongoose.Document<unknown, any, ExtendedLikesInfo> & ExtendedLikesInfo & {
     _id: mongoose.Types.ObjectId;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, ExtendedLikeInfo, mongoose.Document<unknown, {}, mongoose.FlatRecord<ExtendedLikeInfo>> & mongoose.FlatRecord<ExtendedLikeInfo> & {
+}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, ExtendedLikesInfo, mongoose.Document<unknown, {}, mongoose.FlatRecord<ExtendedLikesInfo>> & mongoose.FlatRecord<ExtendedLikesInfo> & {
     _id: mongoose.Types.ObjectId;
 }>;
 export declare class Post {
@@ -53,7 +53,7 @@ export declare class Post {
     blogId: string;
     blogName: string;
     createdAt: string;
-    extendedLikeInfo: ExtendedLikeInfoDocument;
+    extendedLikesInfo: ExtendedLikesInfoDocument;
     static validateId(id: string): boolean;
 }
 export type PostDocument = HydratedDocument<Post>;

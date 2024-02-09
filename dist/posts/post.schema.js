@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostSchema = exports.Post = exports.ExtendedLikeInfoSchema = exports.ExtendedLikeInfo = exports.LikeSchema = exports.Like = void 0;
+exports.PostSchema = exports.Post = exports.ExtendedLikeInfoSchema = exports.ExtendedLikesInfo = exports.LikeSchema = exports.Like = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Like = class Like {
@@ -39,26 +39,26 @@ exports.Like = Like = __decorate([
     })
 ], Like);
 exports.LikeSchema = mongoose_1.SchemaFactory.createForClass(Like);
-let ExtendedLikeInfo = class ExtendedLikeInfo {
+let ExtendedLikesInfo = class ExtendedLikesInfo {
 };
-exports.ExtendedLikeInfo = ExtendedLikeInfo;
+exports.ExtendedLikesInfo = ExtendedLikesInfo;
 __decorate([
     (0, mongoose_1.Prop)({ required: true, default: 0 }),
     __metadata("design:type", Number)
-], ExtendedLikeInfo.prototype, "likesCount", void 0);
+], ExtendedLikesInfo.prototype, "likesCount", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, default: 0 }),
     __metadata("design:type", Number)
-], ExtendedLikeInfo.prototype, "dislikesCount", void 0);
+], ExtendedLikesInfo.prototype, "dislikesCount", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, default: 'None' }),
     __metadata("design:type", String)
-], ExtendedLikeInfo.prototype, "myStatus", void 0);
+], ExtendedLikesInfo.prototype, "myStatus", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, default: [], type: [exports.LikeSchema] }),
     __metadata("design:type", Object)
-], ExtendedLikeInfo.prototype, "newestLikes", void 0);
-exports.ExtendedLikeInfo = ExtendedLikeInfo = __decorate([
+], ExtendedLikesInfo.prototype, "newestLikes", void 0);
+exports.ExtendedLikesInfo = ExtendedLikesInfo = __decorate([
     (0, mongoose_1.Schema)({
         id: false,
         toJSON: {
@@ -69,8 +69,8 @@ exports.ExtendedLikeInfo = ExtendedLikeInfo = __decorate([
             },
         },
     })
-], ExtendedLikeInfo);
-exports.ExtendedLikeInfoSchema = mongoose_1.SchemaFactory.createForClass(ExtendedLikeInfo);
+], ExtendedLikesInfo);
+exports.ExtendedLikeInfoSchema = mongoose_1.SchemaFactory.createForClass(ExtendedLikesInfo);
 let Post = class Post {
     static validateId(id) {
         return mongoose_2.default.Types.ObjectId.isValid(id);
@@ -104,7 +104,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ type: exports.ExtendedLikeInfoSchema, default: {} }),
     __metadata("design:type", Object)
-], Post.prototype, "extendedLikeInfo", void 0);
+], Post.prototype, "extendedLikesInfo", void 0);
 exports.Post = Post = __decorate([
     (0, mongoose_1.Schema)({
         toJSON: {

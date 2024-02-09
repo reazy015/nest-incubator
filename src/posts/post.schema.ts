@@ -34,7 +34,7 @@ export const LikeSchema = SchemaFactory.createForClass(Like);
     },
   },
 })
-export class ExtendedLikeInfo {
+export class ExtendedLikesInfo {
   @Prop({ required: true, default: 0 })
   likesCount: number;
 
@@ -48,9 +48,9 @@ export class ExtendedLikeInfo {
   newestLikes: LikeDocument;
 }
 
-export type ExtendedLikeInfoDocument = HydratedDocument<ExtendedLikeInfo>;
+export type ExtendedLikesInfoDocument = HydratedDocument<ExtendedLikesInfo>;
 export const ExtendedLikeInfoSchema =
-  SchemaFactory.createForClass(ExtendedLikeInfo);
+  SchemaFactory.createForClass(ExtendedLikesInfo);
 
 @Schema({
   toJSON: {
@@ -81,7 +81,7 @@ export class Post {
   createdAt: string;
 
   @Prop({ type: ExtendedLikeInfoSchema, default: {} })
-  extendedLikeInfo: ExtendedLikeInfoDocument;
+  extendedLikesInfo: ExtendedLikesInfoDocument;
 
   static validateId(id: string): boolean {
     return mongoose.Types.ObjectId.isValid(id);
