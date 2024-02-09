@@ -38,7 +38,7 @@ export class BlogsService {
       );
     }
 
-    const blog = await this.blogModel.findById(id).populate('posts').exec();
+    const blog = await this.blogModel.findById(id).exec();
 
     if (!blog) {
       throw new HttpException(
