@@ -35,6 +35,10 @@ let PostsController = class PostsController {
         const post = await this.postsService.getSinglePostById(id);
         return post;
     }
+    async deleteSinglePostById(id) {
+        const deleted = await this.postsService.deleteSinglePostById(id);
+        return deleted;
+    }
 };
 exports.PostsController = PostsController;
 __decorate([
@@ -53,6 +57,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getSinglePost", null);
+__decorate([
+    (0, common_1.Delete)('/:id'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "deleteSinglePostById", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])

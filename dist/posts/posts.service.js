@@ -24,7 +24,17 @@ let PostsService = class PostsService {
         this.postModel = postModel;
     }
     async getSinglePostById(id) {
-        const post = this.postModel.findById(id);
+        if (!post_schema_1.Post.validateId(id)) {
+            throw new common_1.HttpException({
+                errorMessage: 'Invalid blog Id',
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        const post = this.postModel.findById(id).exec();
+        if (!post) {
+            throw new common_1.HttpException({
+                errorMessage: 'Not found',
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
         return post;
     }
     async findAllPostsByBlogId(blogId, query) {
@@ -61,6 +71,9 @@ let PostsService = class PostsService {
     }
     async getTotalPostsCount() {
         return await this.postModel.countDocuments();
+    }
+    async deleteSinglePostById(id) {
+        return (await this.postModel.deleteOne({ _id: id })).acknowledged;
     }
     async deleteAllPosts() {
         const deleted = await this.postModel.deleteMany();

@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -34,5 +35,13 @@ export class PostsController {
     const post = await this.postsService.getSinglePostById(id);
 
     return post;
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteSinglePostById(@Param('id') id: string) {
+    const deleted = await this.postsService.deleteSinglePostById(id);
+
+    return deleted;
   }
 }

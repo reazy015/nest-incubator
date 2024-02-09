@@ -41,9 +41,15 @@ export declare class BlogsController {
     getSingleBlog(id: string): Promise<import("mongoose").Document<unknown, {}, import("./blog.schema").Blog> & import("./blog.schema").Blog & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    getAllBlogsPosts(id: string, query: GetPostsQueryDto): Promise<(import("mongoose").Document<unknown, {}, import("../posts/post.schema").Post> & import("../posts/post.schema").Post & {
-        _id: import("mongoose").Types.ObjectId;
-    })[]>;
+    getAllBlogsPosts(id: string, query: GetPostsQueryDto): Promise<{
+        pagesCount: number;
+        page: number;
+        pageSize: number;
+        totalCount: number;
+        items: (import("mongoose").Document<unknown, {}, import("../posts/post.schema").Post> & import("../posts/post.schema").Post & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+    }>;
     createBlog(blog: CreateBlogDto): Promise<import("./blog.schema").Blog>;
     createPostForSpecificBlog(id: string, post: CreatePostDto): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("../posts/post.schema").Post> & import("../posts/post.schema").Post & {
         _id: import("mongoose").Types.ObjectId;

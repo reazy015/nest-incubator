@@ -39,8 +39,15 @@ let BlogsController = class BlogsController {
         return blog;
     }
     async getAllBlogsPosts(id, query) {
-        const res = await this.postsService.findAllPostsByBlogId(id, query);
-        return res;
+        const posts = await this.postsService.findAllPostsByBlogId(id, query);
+        const totalCount = await this.postsService.getTotalPostsCount();
+        return {
+            pagesCount: Math.ceil(totalCount / query.pageSize),
+            page: query.pageNumber,
+            pageSize: query.pageSize,
+            totalCount,
+            items: posts,
+        };
     }
     async createBlog(blog) {
         const res = await this.blogsService.createBlog(blog);

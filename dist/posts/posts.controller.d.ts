@@ -44,4 +44,5 @@ export declare class PostsController {
     getSinglePost(id: string): Promise<import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    deleteSinglePostById(id: string): Promise<boolean>;
 }

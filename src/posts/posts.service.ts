@@ -13,7 +13,25 @@ export class PostsService {
   ) {}
 
   async getSinglePostById(id: string): Promise<PostDocument> {
-    const post = this.postModel.findById(id);
+    if (!Post.validateId(id)) {
+      throw new HttpException(
+        {
+          errorMessage: 'Invalid blog Id',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const post = this.postModel.findById(id).exec();
+
+    if (!post) {
+      throw new HttpException(
+        {
+          errorMessage: 'Not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
     return post;
   }
@@ -69,6 +87,10 @@ export class PostsService {
 
   async getTotalPostsCount(): Promise<number> {
     return await this.postModel.countDocuments();
+  }
+
+  async deleteSinglePostById(id: string): Promise<boolean> {
+    return (await this.postModel.deleteOne({ _id: id })).acknowledged;
   }
 
   async deleteAllPosts(): Promise<boolean> {

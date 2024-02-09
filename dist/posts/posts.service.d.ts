@@ -40,5 +40,6 @@ export declare class PostsService {
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
     getTotalPostsCount(): Promise<number>;
+    deleteSinglePostById(id: string): Promise<boolean>;
     deleteAllPosts(): Promise<boolean>;
 }

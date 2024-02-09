@@ -53,9 +53,16 @@ export class BlogsController {
     @Param('id') id: string,
     @Query() query: GetPostsQueryDto,
   ) {
-    const res = await this.postsService.findAllPostsByBlogId(id, query);
+    const posts = await this.postsService.findAllPostsByBlogId(id, query);
+    const totalCount = await this.postsService.getTotalPostsCount();
 
-    return res;
+    return {
+      pagesCount: Math.ceil(totalCount / query.pageSize),
+      page: query.pageNumber,
+      pageSize: query.pageSize,
+      totalCount,
+      items: posts,
+    };
   }
 
   @Post()
