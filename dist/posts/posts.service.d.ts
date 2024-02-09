@@ -38,4 +38,5 @@ export declare class PostsService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
+    deleteAllPosts(): Promise<boolean>;
 }

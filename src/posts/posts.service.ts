@@ -60,4 +60,10 @@ export class PostsService {
 
     return posts;
   }
+
+  async deleteAllPosts(): Promise<boolean> {
+    const deleted = await this.postModel.deleteMany();
+
+    return deleted.acknowledged;
+  }
 }

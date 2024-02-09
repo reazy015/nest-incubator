@@ -12,12 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestingController = void 0;
 const common_1 = require("@nestjs/common");
 const blogs_service_1 = require("../blogs/blogs.service");
+const posts_service_1 = require("../posts/posts.service");
 let TestingController = class TestingController {
-    constructor(blogsService) {
+    constructor(blogsService, postsService) {
         this.blogsService = blogsService;
+        this.postsService = postsService;
     }
     async deleteAllTestingData() {
-        return await this.blogsService.deleteAllBlogs();
+        await this.blogsService.deleteAllBlogs();
+        await this.postsService.deleteAllPosts();
+        return true;
     }
 };
 exports.TestingController = TestingController;
@@ -30,6 +34,7 @@ __decorate([
 ], TestingController.prototype, "deleteAllTestingData", null);
 exports.TestingController = TestingController = __decorate([
     (0, common_1.Controller)('testing'),
-    __metadata("design:paramtypes", [blogs_service_1.BlogsService])
+    __metadata("design:paramtypes", [blogs_service_1.BlogsService,
+        posts_service_1.PostsService])
 ], TestingController);
 //# sourceMappingURL=testing.controller.js.map

@@ -25,6 +25,7 @@ export type LikeDocument = HydratedDocument<Like>;
 export const LikeSchema = SchemaFactory.createForClass(Like);
 
 @Schema({
+  id: false,
   toJSON: {
     versionKey: false,
     virtuals: true,

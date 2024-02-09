@@ -55,6 +55,10 @@ let PostsService = class PostsService {
             .exec();
         return posts;
     }
+    async deleteAllPosts() {
+        const deleted = await this.postModel.deleteMany();
+        return deleted.acknowledged;
+    }
 };
 exports.PostsService = PostsService;
 exports.PostsService = PostsService = __decorate([

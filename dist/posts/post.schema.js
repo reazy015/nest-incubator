@@ -60,6 +60,7 @@ __decorate([
 ], ExtendedLikeInfo.prototype, "newestLikes", void 0);
 exports.ExtendedLikeInfo = ExtendedLikeInfo = __decorate([
     (0, mongoose_1.Schema)({
+        id: false,
         toJSON: {
             versionKey: false,
             virtuals: true,
