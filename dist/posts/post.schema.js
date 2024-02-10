@@ -98,7 +98,7 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "blogName", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, default: new Date().toISOString() }),
+    (0, mongoose_1.Prop)({ required: true, default: () => new Date().toISOString() }),
     __metadata("design:type", String)
 ], Post.prototype, "createdAt", void 0);
 __decorate([

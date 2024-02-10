@@ -35,7 +35,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Blog.prototype, "isMembership", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, default: new Date().toISOString() }),
+    (0, mongoose_1.Prop)({ required: true, default: () => new Date().toISOString() }),
     __metadata("design:type", String)
 ], Blog.prototype, "createdAt", void 0);
 exports.Blog = Blog = __decorate([

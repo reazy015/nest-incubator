@@ -24,7 +24,7 @@ export class Blog {
   @Prop({ required: true, default: false })
   isMembership: boolean;
 
-  @Prop({ required: true, default: new Date().toISOString() })
+  @Prop({ required: true, default: () => new Date().toISOString() })
   createdAt: string;
 
   static validateId(id: string): boolean {
