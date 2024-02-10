@@ -25,7 +25,7 @@
 import { BlogDocument } from '../blogs/blog.schema';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from 'src/posts/post.schema';
-import { GetPostsQueryDto } from 'src/posts/posts.dto';
+import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 export declare class PostsService {
     private blogModel;
     private postModel;
@@ -39,6 +39,12 @@ export declare class PostsService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
+    createPost(body: CreatePostDto & {
+        blogId: string;
+    }): Promise<PostDocument>;
+    updatePost(postId: string, body: CreatePostDto & {
+        blogId: string;
+    }): Promise<boolean>;
     getTotalPostsCount(blogId?: string): Promise<number>;
     deleteSinglePostById(id: string): Promise<boolean>;
     deleteAllPosts(): Promise<boolean>;

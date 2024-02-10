@@ -1,13 +1,16 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  Post,
+  Put,
   Query,
 } from '@nestjs/common';
-import { GetPostsQueryDto } from 'src/posts/posts.dto';
+import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
 
 @Controller('posts')
@@ -35,6 +38,25 @@ export class PostsController {
     const post = await this.postsService.getSinglePostById(id);
 
     return post;
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async createPost(@Body() post: CreatePostDto & { blogId: string }) {
+    const created = await this.postsService.createPost(post);
+
+    return created;
+  }
+
+  @Put('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async updatePost(
+    @Body() post: CreatePostDto & { blogId: string },
+    @Param('id') id: string,
+  ) {
+    const updated = await this.postsService.updatePost(id, post);
+
+    return updated;
   }
 
   @Delete('/:id')

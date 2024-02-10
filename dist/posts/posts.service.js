@@ -69,6 +69,50 @@ let PostsService = class PostsService {
             .exec();
         return posts;
     }
+    async createPost(body) {
+        const isValidBogId = blog_schema_1.Blog.validateId(body.blogId);
+        if (!isValidBogId) {
+            throw new common_1.HttpException({
+                errorMessage: 'Invalid blog Id',
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        const blog = await this.blogModel.findById(body.blogId);
+        if (!blog) {
+            throw new common_1.HttpException({
+                errorMessage: 'Not found',
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+        const newPost = new this.postModel({
+            ...body,
+            blogName: blog.name,
+        });
+        try {
+            await newPost.save();
+        }
+        catch (exception) {
+            throw new common_1.HttpException({
+                errorMessage: exception,
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        return newPost;
+    }
+    async updatePost(postId, body) {
+        const isValidPostId = post_schema_1.Post.validateId(postId);
+        if (!isValidPostId) {
+            throw new common_1.HttpException({
+                errorMessage: 'Invalid post Id',
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        const post = await this.postModel.findOneAndUpdate({ _id: postId }, { $set: { ...body } }, { new: true });
+        if (!post) {
+            throw new common_1.HttpException({
+                errorMessage: 'Not found',
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+        else {
+            return true;
+        }
+    }
     async getTotalPostsCount(blogId) {
         if (blogId) {
             return await this.postModel.find({ blogId }).countDocuments();
@@ -76,7 +120,19 @@ let PostsService = class PostsService {
         return await this.postModel.countDocuments();
     }
     async deleteSinglePostById(id) {
-        return (await this.postModel.deleteOne({ _id: id })).acknowledged;
+        const isValidPostId = post_schema_1.Post.validateId(id);
+        if (!isValidPostId) {
+            throw new common_1.HttpException({
+                errorMessage: 'Invalid post Id',
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        const deleted = await this.postModel.findOneAndDelete({ _id: id });
+        if (!deleted) {
+            throw new common_1.HttpException({
+                errorMessage: 'Post not found',
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+        return true;
     }
     async deleteAllPosts() {
         const deleted = await this.postModel.deleteMany();

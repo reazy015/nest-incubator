@@ -35,6 +35,14 @@ let PostsController = class PostsController {
         const post = await this.postsService.getSinglePostById(id);
         return post;
     }
+    async createPost(post) {
+        const created = await this.postsService.createPost(post);
+        return created;
+    }
+    async updatePost(post, id) {
+        const updated = await this.postsService.updatePost(id, post);
+        return updated;
+    }
     async deleteSinglePostById(id) {
         const deleted = await this.postsService.deleteSinglePostById(id);
         return deleted;
@@ -57,6 +65,23 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "getSinglePost", null);
+__decorate([
+    (0, common_1.Post)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "createPost", null);
+__decorate([
+    (0, common_1.Put)('/:id'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "updatePost", null);
 __decorate([
     (0, common_1.Delete)('/:id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),

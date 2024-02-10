@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from '../blogs/blog.schema';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from 'src/posts/post.schema';
-import { GetPostsQueryDto } from 'src/posts/posts.dto';
+import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 
 @Injectable()
 export class PostsService {
@@ -85,6 +85,80 @@ export class PostsService {
     return posts;
   }
 
+  async createPost(
+    body: CreatePostDto & { blogId: string },
+  ): Promise<PostDocument> {
+    const isValidBogId = Blog.validateId(body.blogId);
+
+    if (!isValidBogId) {
+      throw new HttpException(
+        {
+          errorMessage: 'Invalid blog Id',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const blog = await this.blogModel.findById(body.blogId);
+
+    if (!blog) {
+      throw new HttpException(
+        {
+          errorMessage: 'Not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const newPost = new this.postModel({
+      ...body,
+      blogName: blog.name,
+    });
+
+    try {
+      await newPost.save();
+    } catch (exception) {
+      throw new HttpException(
+        {
+          errorMessage: exception,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return newPost;
+  }
+
+  async updatePost(postId: string, body: CreatePostDto & { blogId: string }) {
+    const isValidPostId = Post.validateId(postId);
+
+    if (!isValidPostId) {
+      throw new HttpException(
+        {
+          errorMessage: 'Invalid post Id',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const post = await this.postModel.findOneAndUpdate(
+      { _id: postId },
+      { $set: { ...body } },
+      { new: true },
+    );
+
+    if (!post) {
+      throw new HttpException(
+        {
+          errorMessage: 'Not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    } else {
+      return true;
+    }
+  }
+
   async getTotalPostsCount(blogId?: string): Promise<number> {
     if (blogId) {
       return await this.postModel.find({ blogId }).countDocuments();
@@ -93,7 +167,29 @@ export class PostsService {
   }
 
   async deleteSinglePostById(id: string): Promise<boolean> {
-    return (await this.postModel.deleteOne({ _id: id })).acknowledged;
+    const isValidPostId = Post.validateId(id);
+
+    if (!isValidPostId) {
+      throw new HttpException(
+        {
+          errorMessage: 'Invalid post Id',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const deleted = await this.postModel.findOneAndDelete({ _id: id });
+
+    if (!deleted) {
+      throw new HttpException(
+        {
+          errorMessage: 'Post not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return true;
   }
 
   async deleteAllPosts(): Promise<boolean> {

@@ -23,7 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { GetPostsQueryDto } from 'src/posts/posts.dto';
+import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
 export declare class PostsController {
     private readonly postsService;
@@ -44,5 +44,13 @@ export declare class PostsController {
     getSinglePost(id: string): Promise<import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    createPost(post: CreatePostDto & {
+        blogId: string;
+    }): Promise<import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
+    updatePost(post: CreatePostDto & {
+        blogId: string;
+    }, id: string): Promise<boolean>;
     deleteSinglePostById(id: string): Promise<boolean>;
 }
