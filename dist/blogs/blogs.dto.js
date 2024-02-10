@@ -61,13 +61,11 @@ __decorate([
     __metadata("design:type", String)
 ], GetBlogsQueryDto.prototype, "sortDirection", void 0);
 __decorate([
-    (0, class_transformer_1.Transform)(({ value }) => Number(value)),
-    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)(({ value }) => Number(value || 1)),
     __metadata("design:type", Number)
 ], GetBlogsQueryDto.prototype, "pageNumber", void 0);
 __decorate([
-    (0, class_transformer_1.Transform)(({ value }) => Number(value)),
-    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)(({ value }) => Number(value || 1)),
     __metadata("design:type", Number)
 ], GetBlogsQueryDto.prototype, "pageSize", void 0);
 //# sourceMappingURL=blogs.dto.js.map

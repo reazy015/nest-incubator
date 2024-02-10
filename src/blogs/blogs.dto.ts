@@ -43,13 +43,15 @@ export class GetBlogsQueryDto {
   })
   sortDirection: SortDir = 'desc';
 
-  @Transform(({ value }: { value: string }) => Number(value))
+  // @IsInt()
+  @Transform(({ value }: { value: string }) => Number(value || 1))
+  // @IsString()
   // @IsNumberString()
-  @IsOptional()
+  // @IsNotEmpty()
+  // @IsOptional()
   pageNumber: number = 1;
 
-  @Transform(({ value }: { value: string }) => Number(value))
+  @Transform(({ value }: { value: string }) => Number(value || 1))
   // @IsNumberString()
-  @IsOptional()
   pageSize: number = 10;
 }
