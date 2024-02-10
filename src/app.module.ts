@@ -10,6 +10,9 @@ import { Blog, BlogSchema } from 'src/blogs/blog.schema';
 import { TestingController } from './testing/testing.controller';
 import { PostsService } from './posts/posts.service';
 import { Post, PostSchema } from 'src/posts/post.schema';
+import { UsersController } from './users/users.controller';
+import { UsersService } from './users/users.service';
+import { User, UserSchema } from 'src/users/users.schema';
 
 @Module({
   imports: [
@@ -20,6 +23,7 @@ import { Post, PostSchema } from 'src/posts/post.schema';
     MongooseModule.forFeature([
       { name: Blog.name, schema: BlogSchema },
       { name: Post.name, schema: PostSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [
@@ -27,7 +31,8 @@ import { Post, PostSchema } from 'src/posts/post.schema';
     BlogsController,
     PostsController,
     TestingController,
+    UsersController,
   ],
-  providers: [AppService, BlogsService, PostsService],
+  providers: [AppService, BlogsService, PostsService, UsersService],
 })
 export class AppModule {}

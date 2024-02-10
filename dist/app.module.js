@@ -19,6 +19,9 @@ const blog_schema_1 = require("./blogs/blog.schema");
 const testing_controller_1 = require("./testing/testing.controller");
 const posts_service_1 = require("./posts/posts.service");
 const post_schema_1 = require("./posts/post.schema");
+const users_controller_1 = require("./users/users.controller");
+const users_service_1 = require("./users/users.service");
+const users_schema_1 = require("./users/users.schema");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -32,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: blog_schema_1.Blog.name, schema: blog_schema_1.BlogSchema },
                 { name: post_schema_1.Post.name, schema: post_schema_1.PostSchema },
+                { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
             ]),
         ],
         controllers: [
@@ -39,8 +43,9 @@ exports.AppModule = AppModule = __decorate([
             blogs_controller_1.BlogsController,
             posts_controller_1.PostsController,
             testing_controller_1.TestingController,
+            users_controller_1.UsersController,
         ],
-        providers: [app_service_1.AppService, blogs_service_1.BlogsService, posts_service_1.PostsService],
+        providers: [app_service_1.AppService, blogs_service_1.BlogsService, posts_service_1.PostsService, users_service_1.UsersService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
