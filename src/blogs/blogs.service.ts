@@ -52,7 +52,17 @@ export class BlogsService {
     return blog;
   }
 
-  async getTotalBlogsCount(): Promise<number> {
+  async getTotalBlogsCount(name?: string): Promise<number> {
+    if (name) {
+      const count = await this.blogModel
+        .find({
+          name: { $regex: name, $options: 'i' },
+        })
+        .countDocuments();
+
+      return count;
+    }
+
     return await this.blogModel.countDocuments();
   }
 
@@ -127,9 +137,29 @@ export class BlogsService {
   }
 
   async deleteBlog(id: string): Promise<boolean> {
-    const deleted = await this.blogModel.deleteOne({ _id: id });
+    const isValidId = Blog.validateId(id);
 
-    return deleted.acknowledged;
+    if (!isValidId) {
+      throw new HttpException(
+        {
+          errorMessage: 'Invalid blog Id',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const blog = await this.blogModel.findById(id).exec();
+
+    if (!blog) {
+      throw new HttpException(
+        {
+          errorMessage: 'Not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return (await blog.deleteOne()).acknowledged;
   }
 
   async deleteAllBlogs(): Promise<boolean> {

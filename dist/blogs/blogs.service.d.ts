@@ -33,7 +33,7 @@ export declare class BlogsService {
     constructor(blogModel: Model<BlogDocument>, postModel: Model<PostDocument>);
     findAllBlogs(query: GetBlogsQueryDto): Promise<Blog[]>;
     findBlogById(id: string): Promise<BlogDocument>;
-    getTotalBlogsCount(): Promise<number>;
+    getTotalBlogsCount(name?: string): Promise<number>;
     createBlog(blog: CreateBlogDto): Promise<Blog>;
     createPost(blogId: string, post: CreatePostDto): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Post> & Post & {
         _id: import("mongoose").Types.ObjectId;

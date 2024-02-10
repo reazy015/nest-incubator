@@ -29,7 +29,9 @@ export class BlogsController {
     query: GetBlogsQueryDto,
   ) {
     const blogs = await this.blogsService.findAllBlogs(query);
-    const totalCount = await this.blogsService.getTotalBlogsCount();
+    const totalCount = await this.blogsService.getTotalBlogsCount(
+      query.searchNameTerm,
+    );
 
     return {
       pagesCount: Math.ceil(totalCount / query.pageSize),

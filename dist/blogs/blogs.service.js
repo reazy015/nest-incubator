@@ -49,7 +49,15 @@ let BlogsService = class BlogsService {
         }
         return blog;
     }
-    async getTotalBlogsCount() {
+    async getTotalBlogsCount(name) {
+        if (name) {
+            const count = await this.blogModel
+                .find({
+                name: { $regex: name, $options: 'i' },
+            })
+                .countDocuments();
+            return count;
+        }
         return await this.blogModel.countDocuments();
     }
     async createBlog(blog) {
@@ -99,8 +107,19 @@ let BlogsService = class BlogsService {
         return saved;
     }
     async deleteBlog(id) {
-        const deleted = await this.blogModel.deleteOne({ _id: id });
-        return deleted.acknowledged;
+        const isValidId = blog_schema_1.Blog.validateId(id);
+        if (!isValidId) {
+            throw new common_1.HttpException({
+                errorMessage: 'Invalid blog Id',
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
+        const blog = await this.blogModel.findById(id).exec();
+        if (!blog) {
+            throw new common_1.HttpException({
+                errorMessage: 'Not found',
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+        return (await blog.deleteOne()).acknowledged;
     }
     async deleteAllBlogs() {
         const deleted = await this.blogModel.deleteMany();
