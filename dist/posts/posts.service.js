@@ -29,7 +29,7 @@ let PostsService = class PostsService {
                 errorMessage: 'Invalid blog Id',
             }, common_1.HttpStatus.BAD_REQUEST);
         }
-        const post = this.postModel.findById(id).exec();
+        const post = await this.postModel.findById(id).exec();
         if (!post) {
             throw new common_1.HttpException({
                 errorMessage: 'Not found',
@@ -126,13 +126,13 @@ let PostsService = class PostsService {
                 errorMessage: 'Invalid post Id',
             }, common_1.HttpStatus.BAD_REQUEST);
         }
-        const deleted = await this.postModel.findOneAndDelete({ _id: id });
-        if (!deleted) {
+        const post = await this.postModel.findById(id);
+        if (!post) {
             throw new common_1.HttpException({
                 errorMessage: 'Post not found',
             }, common_1.HttpStatus.NOT_FOUND);
         }
-        return true;
+        return await this.postModel.findOneAndDelete({ _id: id });
     }
     async deleteAllPosts() {
         const deleted = await this.postModel.deleteMany();

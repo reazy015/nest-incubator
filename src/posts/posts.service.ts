@@ -22,7 +22,7 @@ export class PostsService {
       );
     }
 
-    const post = this.postModel.findById(id).exec();
+    const post = await this.postModel.findById(id).exec();
 
     if (!post) {
       throw new HttpException(
@@ -178,9 +178,9 @@ export class PostsService {
       );
     }
 
-    const deleted = await this.postModel.findOneAndDelete({ _id: id });
+    const post = await this.postModel.findById(id);
 
-    if (!deleted) {
+    if (!post) {
       throw new HttpException(
         {
           errorMessage: 'Post not found',
@@ -189,7 +189,7 @@ export class PostsService {
       );
     }
 
-    return true;
+    return await this.postModel.findOneAndDelete({ _id: id });
   }
 
   async deleteAllPosts(): Promise<boolean> {
