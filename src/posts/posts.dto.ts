@@ -34,11 +34,11 @@ export class GetPostsQueryDto {
   })
   sortDirection: SortDir = 'desc';
 
+  @Transform(({ value }: { value: string }) => Number(value || 1))
   @IsOptional()
-  @Min(1)
   pageNumber: number = 1;
 
+  @Transform(({ value }: { value: string }) => Number(value || 1))
   @IsOptional()
-  @Min(10)
   pageSize: number = 10;
 }
