@@ -1,5 +1,13 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsNotEmpty, IsOptional, Min } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export class CreateBlogDto {
   @IsNotEmpty({
@@ -35,11 +43,13 @@ export class GetBlogsQueryDto {
   })
   sortDirection: SortDir = 'desc';
 
+  @Transform(({ value }: { value: string }) => Number(value))
+  // @IsNumberString()
   @IsOptional()
-  @Min(1)
   pageNumber: number = 1;
 
+  @Transform(({ value }: { value: string }) => Number(value))
+  // @IsNumberString()
   @IsOptional()
-  @Min(10)
   pageSize: number = 10;
 }
