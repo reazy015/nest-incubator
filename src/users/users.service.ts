@@ -38,9 +38,15 @@ export class UsersService {
   }
 
   async createUser(body: CreateUserDto): Promise<UserDocument> {
-    const createdUser = new this.userModel(body);
+    const createdUser = new this.userModel({ ...body });
 
-    return createdUser.save();
+    return await createdUser.save();
+  }
+
+  async createNewUnconfirmedUser(user: User) {
+    const createdUnconfirmedUser = new this.userModel(user);
+
+    return await createdUnconfirmedUser.save();
   }
 
   async getUsersCount(

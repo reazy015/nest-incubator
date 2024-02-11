@@ -13,6 +13,10 @@ import { Post, PostSchema } from 'src/posts/post.schema';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { User, UserSchema } from 'src/users/users.schema';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { MailService } from './mail/mail.service';
+import { CryptoService } from './crypto/crypto.service';
 
 @Module({
   imports: [
@@ -32,7 +36,8 @@ import { User, UserSchema } from 'src/users/users.schema';
     PostsController,
     TestingController,
     UsersController,
+    AuthController,
   ],
-  providers: [AppService, BlogsService, PostsService, UsersService],
+  providers: [AppService, BlogsService, PostsService, UsersService, AuthService, MailService, CryptoService],
 })
 export class AppModule {}

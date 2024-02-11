@@ -11,6 +11,19 @@ import mongoose, { HydratedDocument } from 'mongoose';
   },
 })
 export class User {
+  //   confirmationCode: string | null;
+  //   confirmationSentDate: string;
+  //   expiresIn: string | null;
+
+  @Prop({ default: false })
+  confirmed: boolean;
+
+  @Prop({ required: true })
+  hash: string;
+
+  @Prop({ required: true })
+  salt: string;
+
   @Prop({ required: true })
   login: string;
 

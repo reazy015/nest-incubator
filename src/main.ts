@@ -6,6 +6,10 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  if (process.env.NODE_ENV !== 'production') {
+    app.getHttpAdapter().getInstance().set('json spaces', 2);
+  }
+
   app.enableCors({
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
