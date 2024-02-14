@@ -10,6 +10,7 @@ import { CryptoService } from 'src/crypto/crypto.service';
 import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from 'src/users/users.dto';
 import { User, UserDocument } from 'src/users/users.schema';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,15 @@ export class AuthService {
 
   async registerNewUser(newUser: CreateUserDto): Promise<boolean> {
     const { password, login, email } = newUser;
+
+    const userExists = await this.userModel.findOne({ email });
+
+    if (userExists) {
+      throw new BadRequestException({
+        field: 'email',
+        message: 'Email already in use',
+      });
+    }
     const confirmationCode = this.cryptoService.getConfirmationCode();
     const { hash, salt } = await this.cryptoService.getHash(password);
     const newUnconfirmedUser = new this.userModel({

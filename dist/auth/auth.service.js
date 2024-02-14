@@ -20,6 +20,7 @@ const mongoose_2 = require("mongoose");
 const crypto_service_1 = require("../crypto/crypto.service");
 const mail_service_1 = require("../mail/mail.service");
 const users_schema_1 = require("../users/users.schema");
+const common_2 = require("@nestjs/common");
 let AuthService = class AuthService {
     constructor(cryptoService, jwtService, mailService, userModel) {
         this.cryptoService = cryptoService;
@@ -29,6 +30,13 @@ let AuthService = class AuthService {
     }
     async registerNewUser(newUser) {
         const { password, login, email } = newUser;
+        const userExists = await this.userModel.findOne({ email });
+        if (userExists) {
+            throw new common_2.BadRequestException({
+                field: 'email',
+                message: 'Email already in use',
+            });
+        }
         const confirmationCode = this.cryptoService.getConfirmationCode();
         const { hash, salt } = await this.cryptoService.getHash(password);
         const newUnconfirmedUser = new this.userModel({

@@ -40,7 +40,7 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('/registration'),
-    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [users_dto_1.CreateUserDto]),

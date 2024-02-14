@@ -19,7 +19,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/registration')
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async registerNewUser(@Body() newUser: CreateUserDto) {
     const registered = await this.authService.registerNewUser(newUser);
 
