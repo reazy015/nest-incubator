@@ -29,6 +29,7 @@ export declare class User {
     salt: string;
     login: string;
     email: string;
+    confirmationCode: string;
     createdAt: string;
     static validateId(id: string): boolean;
 }

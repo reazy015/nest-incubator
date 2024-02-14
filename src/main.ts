@@ -19,7 +19,7 @@ async function bootstrap() {
     new ValidationPipe({
       exceptionFactory: (errors) => {
         return new BadRequestException({
-          errorMessages: errors.map((error) => ({
+          errorsMessages: errors.map((error) => ({
             field: error.property,
             message: Object.values(error.constraints ?? [])[0],
           })),

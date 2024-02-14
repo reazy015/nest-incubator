@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { hash, genSalt } from 'bcrypt';
+import { hash, genSalt, compare } from 'bcrypt';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class CryptoService {
   getConfirmationCode(): string {
-    return crypto.randomUUID();
+    return randomUUID();
   }
 
   async getHash(
@@ -20,5 +21,11 @@ export class CryptoService {
       salt,
       hash: generatedHash,
     };
+  }
+
+  async validatePasswordHash(password: string, hash: string): Promise<boolean> {
+    const isValid = await compare(password, hash);
+
+    return isValid;
   }
 }

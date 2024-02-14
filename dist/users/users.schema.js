@@ -39,6 +39,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], User.prototype, "confirmationCode", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true, default: () => new Date().toISOString() }),
     __metadata("design:type", String)
 ], User.prototype, "createdAt", void 0);

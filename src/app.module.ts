@@ -17,6 +17,9 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { MailService } from './mail/mail.service';
 import { CryptoService } from './crypto/crypto.service';
+import { LocalStrategy } from 'src/auth/local.strategy';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -29,6 +32,10 @@ import { CryptoService } from './crypto/crypto.service';
       { name: Post.name, schema: PostSchema },
       { name: User.name, schema: UserSchema },
     ]),
+    JwtModule.register({
+      secret: process.env.SECRET_KEY,
+      signOptions: { expiresIn: '5m' },
+    }),
   ],
   controllers: [
     AppController,
@@ -38,6 +45,16 @@ import { CryptoService } from './crypto/crypto.service';
     UsersController,
     AuthController,
   ],
-  providers: [AppService, BlogsService, PostsService, UsersService, AuthService, MailService, CryptoService],
+  providers: [
+    AppService,
+    BlogsService,
+    PostsService,
+    UsersService,
+    AuthService,
+    MailService,
+    CryptoService,
+    LocalStrategy,
+    JwtStrategy,
+  ],
 })
 export class AppModule {}

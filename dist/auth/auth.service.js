@@ -14,36 +14,70 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const crypto_service_1 = require("../crypto/crypto.service");
+const mail_service_1 = require("../mail/mail.service");
 const users_schema_1 = require("../users/users.schema");
-const users_service_1 = require("../users/users.service");
 let AuthService = class AuthService {
-    constructor(cryptoService, usersService, userModel) {
+    constructor(cryptoService, jwtService, mailService, userModel) {
         this.cryptoService = cryptoService;
-        this.usersService = usersService;
+        this.jwtService = jwtService;
+        this.mailService = mailService;
         this.userModel = userModel;
     }
     async registerNewUser(newUser) {
         const { password, login, email } = newUser;
+        const confirmationCode = this.cryptoService.getConfirmationCode();
         const { hash, salt } = await this.cryptoService.getHash(password);
         const newUnconfirmedUser = new this.userModel({
             login,
             email,
             hash,
             salt,
+            confirmationCode,
         });
+        const mailSent = await this.mailService.sendConfimationEmail(email, confirmationCode);
+        if (!mailSent) {
+            throw new Error('On mail sent error occured');
+        }
         await newUnconfirmedUser.save();
         return true;
+    }
+    async confirmUser(confirmationCode) {
+        const user = await this.userModel.findOne({ confirmationCode });
+        if (!user) {
+            throw new common_1.NotFoundException('No user with such exception');
+        }
+        user.confirmed = true;
+        await user.save();
+        return true;
+    }
+    async validateUser(loginOrEmail, password) {
+        const user = await this.userModel.findOne({
+            $or: [{ login: loginOrEmail }, { email: loginOrEmail }],
+        });
+        const { hash } = await this.cryptoService.getHash(password, user.salt);
+        const isValidPassword = await this.cryptoService.validatePasswordHash(password, user.hash);
+        if (!isValidPassword) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        return user;
+    }
+    async login(user) {
+        return {
+            access_token: this.jwtService.sign(user),
+        };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __param(3, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
     __metadata("design:paramtypes", [crypto_service_1.CryptoService,
-        users_service_1.UsersService,
+        jwt_1.JwtService,
+        mail_service_1.MailService,
         mongoose_2.Model])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

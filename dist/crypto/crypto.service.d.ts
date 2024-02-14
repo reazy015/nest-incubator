@@ -4,4 +4,5 @@ export declare class CryptoService {
         salt: string;
         hash: string;
     }>;
+    validatePasswordHash(password: string, hash: string): Promise<boolean>;
 }

@@ -17,7 +17,7 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({
         exceptionFactory: (errors) => {
             return new common_1.BadRequestException({
-                errorMessages: errors.map((error) => ({
+                errorsMessages: errors.map((error) => ({
                     field: error.property,
                     message: Object.values(error.constraints ?? [])[0],
                 })),

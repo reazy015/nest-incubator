@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import nodemailer from 'nodemailer';
+import { createTransport } from 'nodemailer';
 
 @Injectable()
 export class MailService {
@@ -9,7 +9,7 @@ export class MailService {
     email: string,
     confirmationCode: string,
   ): Promise<boolean> {
-    const transport = nodemailer.createTransport({
+    const transport = createTransport({
       service: 'gmail',
       auth: {
         user: this.configService.get('EMAIL_USER'),

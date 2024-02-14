@@ -9,9 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CryptoService = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt_1 = require("bcrypt");
+const crypto_1 = require("crypto");
 let CryptoService = class CryptoService {
     getConfirmationCode() {
-        return crypto.randomUUID();
+        return (0, crypto_1.randomUUID)();
     }
     async getHash(password, userSalt) {
         const roundsNumber = 10;
@@ -21,6 +22,10 @@ let CryptoService = class CryptoService {
             salt,
             hash: generatedHash,
         };
+    }
+    async validatePasswordHash(password, hash) {
+        const isValid = await (0, bcrypt_1.compare)(password, hash);
+        return isValid;
     }
 };
 exports.CryptoService = CryptoService;

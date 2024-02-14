@@ -16,6 +16,8 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const users_dto_1 = require("../users/users.dto");
+const local_auth_guard_1 = require("./local-auth.guard");
+const jwt_auth_guard_1 = require("./jwt-auth.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -23,6 +25,16 @@ let AuthController = class AuthController {
     async registerNewUser(newUser) {
         const registered = await this.authService.registerNewUser(newUser);
         return registered;
+    }
+    async confirmRegistration(body) {
+        const confirmed = await this.authService.confirmUser(body.code);
+        return confirmed;
+    }
+    async loginUser(req) {
+        return await this.authService.login(req.user);
+    }
+    async getProfile(req) {
+        return req.user;
     }
 };
 exports.AuthController = AuthController;
@@ -34,6 +46,32 @@ __decorate([
     __metadata("design:paramtypes", [users_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "registerNewUser", null);
+__decorate([
+    (0, common_1.Post)('/registration-confirmation'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "confirmRegistration", null);
+__decorate([
+    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, common_1.Post)('/login'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "loginUser", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('/me'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

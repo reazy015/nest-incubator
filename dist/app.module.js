@@ -26,6 +26,9 @@ const auth_controller_1 = require("./auth/auth.controller");
 const auth_service_1 = require("./auth/auth.service");
 const mail_service_1 = require("./mail/mail.service");
 const crypto_service_1 = require("./crypto/crypto.service");
+const local_strategy_1 = require("./auth/local.strategy");
+const jwt_1 = require("@nestjs/jwt");
+const jwt_strategy_1 = require("./auth/jwt.strategy");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -41,6 +44,10 @@ exports.AppModule = AppModule = __decorate([
                 { name: post_schema_1.Post.name, schema: post_schema_1.PostSchema },
                 { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
             ]),
+            jwt_1.JwtModule.register({
+                secret: process.env.SECRET_KEY,
+                signOptions: { expiresIn: '5m' },
+            }),
         ],
         controllers: [
             app_controller_1.AppController,
@@ -50,7 +57,17 @@ exports.AppModule = AppModule = __decorate([
             users_controller_1.UsersController,
             auth_controller_1.AuthController,
         ],
-        providers: [app_service_1.AppService, blogs_service_1.BlogsService, posts_service_1.PostsService, users_service_1.UsersService, auth_service_1.AuthService, mail_service_1.MailService, crypto_service_1.CryptoService],
+        providers: [
+            app_service_1.AppService,
+            blogs_service_1.BlogsService,
+            posts_service_1.PostsService,
+            users_service_1.UsersService,
+            auth_service_1.AuthService,
+            mail_service_1.MailService,
+            crypto_service_1.CryptoService,
+            local_strategy_1.LocalStrategy,
+            jwt_strategy_1.JwtStrategy,
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

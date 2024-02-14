@@ -18,7 +18,7 @@ let MailService = class MailService {
         this.configService = configService;
     }
     async sendConfimationEmail(email, confirmationCode) {
-        const transport = nodemailer_1.default.createTransport({
+        const transport = (0, nodemailer_1.createTransport)({
             service: 'gmail',
             auth: {
                 user: this.configService.get('EMAIL_USER'),

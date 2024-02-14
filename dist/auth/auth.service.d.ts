@@ -22,15 +22,26 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { CryptoService } from 'src/crypto/crypto.service';
+import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from 'src/users/users.dto';
 import { UserDocument } from 'src/users/users.schema';
-import { UsersService } from 'src/users/users.service';
 export declare class AuthService {
     private readonly cryptoService;
-    private readonly usersService;
+    private readonly jwtService;
+    private readonly mailService;
     private readonly userModel;
-    constructor(cryptoService: CryptoService, usersService: UsersService, userModel: Model<UserDocument>);
+    constructor(cryptoService: CryptoService, jwtService: JwtService, mailService: MailService, userModel: Model<UserDocument>);
     registerNewUser(newUser: CreateUserDto): Promise<boolean>;
+    confirmUser(confirmationCode: string): Promise<boolean>;
+    validateUser(loginOrEmail: string, password: string): Promise<UserDocument>;
+    login(user: {
+        login: string;
+        email: string;
+        userId: string;
+    }): Promise<{
+        access_token: string;
+    }>;
 }
