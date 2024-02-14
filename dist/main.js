@@ -15,15 +15,15 @@ async function bootstrap() {
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     });
     app.setGlobalPrefix('api');
-    app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
     app.useGlobalPipes(new common_1.ValidationPipe({
         exceptionFactory: (errors) => {
-            return new common_1.BadRequestException(...errors.map((error) => ({
+            return new common_1.BadRequestException(errors.map((error) => ({
                 field: error.property,
                 message: Object.values(error.constraints ?? [])[0],
             })));
         },
     }));
+    app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
     const configService = app.get(config_1.ConfigService);
     await app.listen(configService.get('PORT') ?? 5000);
 }

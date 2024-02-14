@@ -16,12 +16,11 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   });
   app.setGlobalPrefix('api');
-  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
         return new BadRequestException(
-          ...errors.map((error) => ({
+          errors.map((error) => ({
             field: error.property,
             message: Object.values(error.constraints ?? [])[0],
           })),
@@ -29,6 +28,8 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
+
   const configService = app.get(ConfigService);
   await app.listen(configService.get('PORT') ?? 5000);
 }

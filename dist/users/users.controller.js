@@ -72,6 +72,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)('/:id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    (0, common_1.UseGuards)(basic_auth_guard_1.BasicAuthGuard),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

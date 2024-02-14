@@ -57,6 +57,7 @@ export class UsersController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(BasicAuthGuard)
   async deleteUser(@Param('id') id: string) {
     const deletedUser = await this.usersService.deleteUserById(id);
 

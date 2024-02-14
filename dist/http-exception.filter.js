@@ -13,9 +13,18 @@ let HttpExceptionFilter = class HttpExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const status = exception.getStatus();
-        response.status(status).json({
-            errorsMessages: [exception.getResponse()],
-        });
+        const errorResponse = exception.getResponse();
+        const errorMessage = errorResponse.message || errorResponse;
+        if (typeof errorMessage === 'string') {
+            response.status(status).json({
+                errorsMessages: [errorResponse],
+            });
+        }
+        else {
+            response.status(status).json({
+                errorsMessages: [...errorMessage],
+            });
+        }
     }
 };
 exports.HttpExceptionFilter = HttpExceptionFilter;
