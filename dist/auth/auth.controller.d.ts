@@ -1,5 +1,6 @@
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/users/users.dto';
+import { EmailDto } from 'src/auth/auth.dto';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -11,4 +12,5 @@ export declare class AuthController {
         accessToken: string;
     }>;
     getProfile(req: any): Promise<any>;
+    resendRegistrationEmail(body: EmailDto): Promise<void>;
 }

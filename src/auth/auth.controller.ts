@@ -11,7 +11,7 @@ import {
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/users/users.dto';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
-import { LoginDto } from 'src/auth/auth.dto';
+import { EmailDto, LoginDto } from 'src/auth/auth.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('auth')
@@ -46,5 +46,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Post('/registration-email-resending')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async resendRegistrationEmail(@Body() body: EmailDto) {
+    await this.authService.resendRegistrationEmail(body.email);
   }
 }

@@ -35,6 +35,7 @@ export declare class AuthService {
     private readonly userModel;
     constructor(cryptoService: CryptoService, jwtService: JwtService, mailService: MailService, userModel: Model<UserDocument>);
     registerNewUser(newUser: CreateUserDto): Promise<boolean>;
+    resendRegistrationEmail(email: string): Promise<boolean>;
     confirmUser(confirmationCode: string): Promise<boolean>;
     validateUser(loginOrEmail: string, password: string): Promise<UserDocument>;
     login(user: {

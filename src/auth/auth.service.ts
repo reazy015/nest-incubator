@@ -65,6 +65,34 @@ export class AuthService {
     return true;
   }
 
+  async resendRegistrationEmail(email: string): Promise<boolean> {
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new NotFoundException('No user with such email');
+    }
+
+    if (user.confirmed) {
+      throw new Error('User already confirmed');
+    }
+
+    const newConfirmationCode = this.cryptoService.getConfirmationCode();
+
+    const mailSent = await this.mailService.sendConfimationEmail(
+      email,
+      newConfirmationCode,
+    );
+
+    if (!mailSent) {
+      throw new Error('On mail sent error occured');
+    }
+
+    user.confirmationCode = newConfirmationCode;
+    await user.save();
+
+    return true;
+  }
+
   async confirmUser(confirmationCode: string): Promise<boolean> {
     const user = await this.userModel.findOne({ confirmationCode });
 
@@ -100,7 +128,6 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials');
     }
 
-    const { hash } = await this.cryptoService.getHash(password, user.salt);
     const isValidPassword = await this.cryptoService.validatePasswordHash(
       password,
       user.hash,

@@ -60,6 +60,23 @@ let AuthService = class AuthService {
         await newUnconfirmedUser.save();
         return true;
     }
+    async resendRegistrationEmail(email) {
+        const user = await this.userModel.findOne({ email });
+        if (!user) {
+            throw new common_1.NotFoundException('No user with such email');
+        }
+        if (user.confirmed) {
+            throw new Error('User already confirmed');
+        }
+        const newConfirmationCode = this.cryptoService.getConfirmationCode();
+        const mailSent = await this.mailService.sendConfimationEmail(email, newConfirmationCode);
+        if (!mailSent) {
+            throw new Error('On mail sent error occured');
+        }
+        user.confirmationCode = newConfirmationCode;
+        await user.save();
+        return true;
+    }
     async confirmUser(confirmationCode) {
         const user = await this.userModel.findOne({ confirmationCode });
         if (!user) {
@@ -85,7 +102,6 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.UnauthorizedException('Wrong credentials');
         }
-        const { hash } = await this.cryptoService.getHash(password, user.salt);
         const isValidPassword = await this.cryptoService.validatePasswordHash(password, user.hash);
         if (!isValidPassword) {
             throw new common_1.UnauthorizedException('Invalid credentials');

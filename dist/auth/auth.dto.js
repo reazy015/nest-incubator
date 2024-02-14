@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginDto = void 0;
+exports.EmailDto = exports.LoginDto = void 0;
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class LoginDto {
@@ -25,4 +25,12 @@ __decorate([
     (0, class_transformer_1.Transform)(({ value }) => value.trim()),
     __metadata("design:type", String)
 ], LoginDto.prototype, "password", void 0);
+class EmailDto {
+}
+exports.EmailDto = EmailDto;
+__decorate([
+    (0, class_validator_1.IsEmail)({}, { message: 'Incorrect email' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Email can not be empty' }),
+    __metadata("design:type", String)
+], EmailDto.prototype, "email", void 0);
 //# sourceMappingURL=auth.dto.js.map
