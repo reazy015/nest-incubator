@@ -8,7 +8,7 @@ export declare class AuthController {
         code: string;
     }): Promise<boolean>;
     loginUser(req: any): Promise<{
-        access_token: string;
+        accessToken: string;
     }>;
     getProfile(req: any): Promise<any>;
 }

@@ -19,8 +19,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
             secretOrKey: process.env.SECRET_KEY,
-            passReqToCallback: true,
-        }, (arr) => console.log(arr));
+        });
     }
     async validate(payload) {
         return { userId: payload.sub, login: payload.login, email: payload.email };

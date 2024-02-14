@@ -42,6 +42,6 @@ export declare class AuthService {
         email: string;
         userId: string;
     }): Promise<{
-        access_token: string;
+        accessToken: string;
     }>;
 }
