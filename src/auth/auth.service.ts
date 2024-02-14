@@ -32,6 +32,14 @@ export class AuthService {
         message: 'Email already in use',
       });
     }
+
+    if (userExists.login === login) {
+      throw new BadRequestException({
+        field: 'login',
+        message: 'Login already in use',
+      });
+    }
+
     const confirmationCode = this.cryptoService.getConfirmationCode();
     const { hash, salt } = await this.cryptoService.getHash(password);
     const newUnconfirmedUser = new this.userModel({

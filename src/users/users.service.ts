@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CryptoService } from 'src/crypto/crypto.service';
@@ -79,12 +84,7 @@ export class UsersService {
     const deletedUser = await this.userModel.findOneAndDelete({ _id: id });
 
     if (!deletedUser) {
-      throw new HttpException(
-        {
-          errorMessage: 'User not found',
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException('User not found');
     }
     return Boolean(deletedUser);
   }

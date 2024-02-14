@@ -67,9 +67,7 @@ let UsersService = class UsersService {
     async deleteUserById(id) {
         const deletedUser = await this.userModel.findOneAndDelete({ _id: id });
         if (!deletedUser) {
-            throw new common_1.HttpException({
-                errorMessage: 'User not found',
-            }, common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.NotFoundException('User not found');
         }
         return Boolean(deletedUser);
     }
