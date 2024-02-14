@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CryptoService } from 'src/crypto/crypto.service';
 import { CreateUserDto, GetUsersQueryDto } from 'src/users/users.dto';
 import { User, UserDocument } from 'src/users/users.schema';
 
@@ -8,6 +9,7 @@ import { User, UserDocument } from 'src/users/users.schema';
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly cryptoService: CryptoService,
   ) {}
 
   async getUsers(query: GetUsersQueryDto): Promise<UserDocument[]> {
@@ -38,7 +40,15 @@ export class UsersService {
   }
 
   async createUser(body: CreateUserDto): Promise<UserDocument> {
-    const createdUser = new this.userModel({ ...body });
+    const { hash, salt } = await this.cryptoService.getHash(body.password);
+
+    const createdUser = new this.userModel({
+      ...body,
+      confirmed: true,
+      confirmationCode: 'created_by_admin',
+      hash,
+      salt,
+    });
 
     return await createdUser.save();
   }

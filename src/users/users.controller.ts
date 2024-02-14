@@ -36,9 +36,15 @@ export class UsersController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createUser(@Body() body: CreateUserDto) {
-    const createdUser = await this.usersService.createUser(body);
+    const { id, login, email, createdAt } =
+      await this.usersService.createUser(body);
 
-    return createdUser;
+    return {
+      id,
+      login,
+      email,
+      createdAt,
+    };
   }
 
   @Delete('/:id')

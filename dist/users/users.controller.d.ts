@@ -37,8 +37,11 @@ export declare class UsersController {
             _id: import("mongoose").Types.ObjectId;
         })[];
     }>;
-    createUser(body: CreateUserDto): Promise<import("mongoose").Document<unknown, {}, import("./users.schema").User> & import("./users.schema").User & {
-        _id: import("mongoose").Types.ObjectId;
+    createUser(body: CreateUserDto): Promise<{
+        id: any;
+        login: string;
+        email: string;
+        createdAt: string;
     }>;
     deleteUser(id: string): Promise<boolean>;
 }

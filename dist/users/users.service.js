@@ -16,10 +16,12 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const crypto_service_1 = require("../crypto/crypto.service");
 const users_schema_1 = require("./users.schema");
 let UsersService = class UsersService {
-    constructor(userModel) {
+    constructor(userModel, cryptoService) {
         this.userModel = userModel;
+        this.cryptoService = cryptoService;
     }
     async getUsers(query) {
         const { pageNumber, pageSize, sortBy, sortDirection, searchEmailTerm, searchLoginTerm, } = query;
@@ -38,7 +40,14 @@ let UsersService = class UsersService {
         return users;
     }
     async createUser(body) {
-        const createdUser = new this.userModel({ ...body });
+        const { hash, salt } = await this.cryptoService.getHash(body.password);
+        const createdUser = new this.userModel({
+            ...body,
+            confirmed: true,
+            confirmationCode: 'created_by_admin',
+            hash,
+            salt,
+        });
         return await createdUser.save();
     }
     async createNewUnconfirmedUser(user) {
@@ -72,6 +81,7 @@ exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        crypto_service_1.CryptoService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

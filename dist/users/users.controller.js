@@ -32,8 +32,13 @@ let UsersController = class UsersController {
         };
     }
     async createUser(body) {
-        const createdUser = await this.usersService.createUser(body);
-        return createdUser;
+        const { id, login, email, createdAt } = await this.usersService.createUser(body);
+        return {
+            id,
+            login,
+            email,
+            createdAt,
+        };
     }
     async deleteUser(id) {
         const deletedUser = await this.usersService.deleteUserById(id);

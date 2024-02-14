@@ -23,11 +23,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
+import { CryptoService } from 'src/crypto/crypto.service';
 import { CreateUserDto, GetUsersQueryDto } from 'src/users/users.dto';
 import { User, UserDocument } from 'src/users/users.schema';
 export declare class UsersService {
     private readonly userModel;
-    constructor(userModel: Model<UserDocument>);
+    private readonly cryptoService;
+    constructor(userModel: Model<UserDocument>, cryptoService: CryptoService);
     getUsers(query: GetUsersQueryDto): Promise<UserDocument[]>;
     createUser(body: CreateUserDto): Promise<UserDocument>;
     createNewUnconfirmedUser(user: User): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, User> & User & {
