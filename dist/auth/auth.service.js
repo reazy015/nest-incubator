@@ -58,6 +58,9 @@ let AuthService = class AuthService {
         const user = await this.userModel.findOne({
             $or: [{ login: loginOrEmail }, { email: loginOrEmail }],
         });
+        if (!user) {
+            throw new common_1.UnauthorizedException('Wrong credentials');
+        }
         const { hash } = await this.cryptoService.getHash(password, user.salt);
         const isValidPassword = await this.cryptoService.validatePasswordHash(password, user.hash);
         if (!isValidPassword) {

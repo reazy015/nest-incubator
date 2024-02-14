@@ -67,6 +67,10 @@ export class AuthService {
       $or: [{ login: loginOrEmail }, { email: loginOrEmail }],
     });
 
+    if (!user) {
+      throw new UnauthorizedException('Wrong credentials');
+    }
+
     const { hash } = await this.cryptoService.getHash(password, user.salt);
     const isValidPassword = await this.cryptoService.validatePasswordHash(
       password,
