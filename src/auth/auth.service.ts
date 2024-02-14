@@ -60,7 +60,17 @@ export class AuthService {
     const user = await this.userModel.findOne({ confirmationCode });
 
     if (!user) {
-      throw new NotFoundException('No user with such exception');
+      throw new BadRequestException({
+        field: 'code',
+        message: 'Invalid code',
+      });
+    }
+
+    if (user.confirmed) {
+      throw new BadRequestException({
+        field: 'code',
+        message: 'User already confirmed',
+      });
     }
 
     user.confirmed = true;

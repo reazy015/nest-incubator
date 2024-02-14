@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from 'src/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,15 +16,16 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   });
   app.setGlobalPrefix('api');
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
-        return new BadRequestException({
-          errorsMessages: errors.map((error) => ({
+        return new BadRequestException(
+          ...errors.map((error) => ({
             field: error.property,
             message: Object.values(error.constraints ?? [])[0],
           })),
-        });
+        );
       },
     }),
   );

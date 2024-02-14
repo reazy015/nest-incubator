@@ -56,7 +56,16 @@ let AuthService = class AuthService {
     async confirmUser(confirmationCode) {
         const user = await this.userModel.findOne({ confirmationCode });
         if (!user) {
-            throw new common_1.NotFoundException('No user with such exception');
+            throw new common_2.BadRequestException({
+                field: 'code',
+                message: 'Invalid code',
+            });
+        }
+        if (user.confirmed) {
+            throw new common_2.BadRequestException({
+                field: 'code',
+                message: 'User already confirmed',
+            });
         }
         user.confirmed = true;
         await user.save();

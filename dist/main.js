@@ -4,6 +4,7 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const config_1 = require("@nestjs/config");
 const common_1 = require("@nestjs/common");
+const http_exception_filter_1 = require("./http-exception.filter");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     if (process.env.NODE_ENV !== 'production') {
@@ -14,14 +15,13 @@ async function bootstrap() {
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     });
     app.setGlobalPrefix('api');
+    app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
     app.useGlobalPipes(new common_1.ValidationPipe({
         exceptionFactory: (errors) => {
-            return new common_1.BadRequestException({
-                errorsMessages: errors.map((error) => ({
-                    field: error.property,
-                    message: Object.values(error.constraints ?? [])[0],
-                })),
-            });
+            return new common_1.BadRequestException(...errors.map((error) => ({
+                field: error.property,
+                message: Object.values(error.constraints ?? [])[0],
+            })));
         },
     }));
     const configService = app.get(config_1.ConfigService);
