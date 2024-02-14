@@ -30,14 +30,15 @@ let AuthService = class AuthService {
     }
     async registerNewUser(newUser) {
         const { password, login, email } = newUser;
-        const userExists = await this.userModel.findOne({ email });
-        if (userExists) {
+        const emailExists = await this.userModel.findOne({ email });
+        if (emailExists) {
             throw new common_2.BadRequestException({
                 field: 'email',
                 message: 'Email already in use',
             });
         }
-        if (userExists.login === login) {
+        const loginExists = await this.userModel.findOne({ login });
+        if (loginExists) {
             throw new common_2.BadRequestException({
                 field: 'login',
                 message: 'Login already in use',

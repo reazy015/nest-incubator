@@ -24,16 +24,17 @@ export class AuthService {
   async registerNewUser(newUser: CreateUserDto): Promise<boolean> {
     const { password, login, email } = newUser;
 
-    const userExists = await this.userModel.findOne({ email });
+    const emailExists = await this.userModel.findOne({ email });
 
-    if (userExists) {
+    if (emailExists) {
       throw new BadRequestException({
         field: 'email',
         message: 'Email already in use',
       });
     }
+    const loginExists = await this.userModel.findOne({ login });
 
-    if (userExists.login === login) {
+    if (loginExists) {
       throw new BadRequestException({
         field: 'login',
         message: 'Login already in use',
