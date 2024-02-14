@@ -42,7 +42,7 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  // @UseGuards(BasicAuthGuard)
+  @UseGuards(BasicAuthGuard)
   async createUser(@Body() body: CreateUserDto) {
     const { id, login, email, createdAt } =
       await this.usersService.createUser(body);
