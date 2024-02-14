@@ -63,10 +63,16 @@ let AuthService = class AuthService {
     async resendRegistrationEmail(email) {
         const user = await this.userModel.findOne({ email });
         if (!user) {
-            throw new common_1.NotFoundException('No user with such email');
+            throw new common_2.BadRequestException({
+                field: 'email',
+                message: 'No user with this email',
+            });
         }
         if (user.confirmed) {
-            throw new Error('User already confirmed');
+            throw new common_2.BadRequestException({
+                field: 'email',
+                message: 'Already confirmed',
+            });
         }
         const newConfirmationCode = this.cryptoService.getConfirmationCode();
         const mailSent = await this.mailService.sendConfimationEmail(email, newConfirmationCode);

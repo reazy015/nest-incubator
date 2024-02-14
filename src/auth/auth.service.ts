@@ -69,11 +69,17 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new NotFoundException('No user with such email');
+      throw new BadRequestException({
+        field: 'email',
+        message: 'No user with this email',
+      });
     }
 
     if (user.confirmed) {
-      throw new Error('User already confirmed');
+      throw new BadRequestException({
+        field: 'email',
+        message: 'Already confirmed',
+      });
     }
 
     const newConfirmationCode = this.cryptoService.getConfirmationCode();
