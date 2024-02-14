@@ -29,6 +29,7 @@ const crypto_service_1 = require("./crypto/crypto.service");
 const local_strategy_1 = require("./auth/local.strategy");
 const jwt_1 = require("@nestjs/jwt");
 const jwt_strategy_1 = require("./auth/jwt.strategy");
+const basic_strategy_1 = require("./auth/basic.strategy");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -67,6 +68,7 @@ exports.AppModule = AppModule = __decorate([
             crypto_service_1.CryptoService,
             local_strategy_1.LocalStrategy,
             jwt_strategy_1.JwtStrategy,
+            basic_strategy_1.BasicStrategy,
         ],
     })
 ], AppModule);

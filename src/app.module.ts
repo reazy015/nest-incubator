@@ -20,6 +20,7 @@ import { CryptoService } from './crypto/crypto.service';
 import { LocalStrategy } from 'src/auth/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { BasicStrategy } from 'src/auth/basic.strategy';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
     CryptoService,
     LocalStrategy,
     JwtStrategy,
+    BasicStrategy,
   ],
 })
 export class AppModule {}

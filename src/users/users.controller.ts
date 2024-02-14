@@ -8,7 +8,9 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { BasicAuthGuard } from 'src/auth/basic-auth.guard';
 import { CreateUserDto, GetUsersQueryDto } from 'src/users/users.dto';
 import { UsersService } from 'src/users/users.service';
 
@@ -29,12 +31,18 @@ export class UsersController {
       page: query.pageNumber,
       pageSize: query.pageSize,
       totalCount,
-      items: users,
+      items: users.map(({ id, login, email, createdAt }) => ({
+        id,
+        login,
+        email,
+        createdAt,
+      })),
     };
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(BasicAuthGuard)
   async createUser(@Body() body: CreateUserDto) {
     const { id, login, email, createdAt } =
       await this.usersService.createUser(body);
