@@ -16,6 +16,7 @@ import { CreateBlogDto, GetBlogsQueryDto } from './blogs.dto';
 import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { BasicAuthGuard } from 'src/auth/basic-auth.guard';
 
 @Controller('blogs')
 export class BlogsController {
@@ -86,9 +87,9 @@ export class BlogsController {
     return res;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(BasicAuthGuard)
   async updateBlog(
     @Param('id') id: string,
     @Body() updateBlogDto: CreateBlogDto,
@@ -96,9 +97,9 @@ export class BlogsController {
     await this.blogsService.updateBlog(id, updateBlogDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(BasicAuthGuard)
   async deleteBlog(@Param('id') id: string) {
     const deleted = await this.blogsService.deleteBlog(id);
 
