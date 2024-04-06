@@ -69,14 +69,15 @@ export class BlogsController {
     };
   }
 
-  @Post()
   @UseGuards(JwtAuthGuard)
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   async createBlog(@Body() blog: CreateBlogDto) {
     const res = await this.blogsService.createBlog(blog);
     return res;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/:id/posts')
   async createPostForSpecificBlog(
     @Param('id') id: string,
@@ -88,7 +89,6 @@ export class BlogsController {
   }
 
   @Put('/:id')
-  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async updateBlog(
     @Param('id') id: string,
@@ -97,8 +97,8 @@ export class BlogsController {
     await this.blogsService.updateBlog(id, updateBlogDto);
   }
 
-  @Delete('/:id')
   @UseGuards(JwtAuthGuard)
+  @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteBlog(@Param('id') id: string) {
     const deleted = await this.blogsService.deleteBlog(id);

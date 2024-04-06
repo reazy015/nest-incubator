@@ -92,8 +92,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "getAllBlogsPosts", null);
 __decorate([
-    (0, common_1.Post)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -101,6 +101,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "createBlog", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)('/:id/posts'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -110,7 +111,6 @@ __decorate([
 ], BlogsController.prototype, "createPostForSpecificBlog", null);
 __decorate([
     (0, common_1.Put)('/:id'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -119,8 +119,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "updateBlog", null);
 __decorate([
-    (0, common_1.Delete)('/:id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)('/:id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
