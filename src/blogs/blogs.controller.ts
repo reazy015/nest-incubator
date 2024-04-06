@@ -86,6 +86,7 @@ export class BlogsController {
     return res;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async updateBlog(
@@ -95,6 +96,7 @@ export class BlogsController {
     await this.blogsService.updateBlog(id, updateBlogDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteBlog(@Param('id') id: string) {
