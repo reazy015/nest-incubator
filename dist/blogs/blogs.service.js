@@ -115,9 +115,7 @@ let BlogsService = class BlogsService {
         }
         const blog = await this.blogModel.findById(id).exec();
         if (!blog) {
-            throw new common_1.HttpException({
-                errorMessage: 'Not found',
-            }, common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Not found', common_1.HttpStatus.NOT_FOUND);
         }
         return (await blog.deleteOne()).acknowledged;
     }

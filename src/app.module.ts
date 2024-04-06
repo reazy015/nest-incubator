@@ -27,7 +27,7 @@ import { BasicStrategy } from 'src/auth/basic.strategy';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.DB_URL ?? ''),
+    MongooseModule.forRoot(process.env.DB_URL),
     MongooseModule.forFeature([
       { name: Blog.name, schema: BlogSchema },
       { name: Post.name, schema: PostSchema },

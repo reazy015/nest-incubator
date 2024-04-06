@@ -39,7 +39,7 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
-            mongoose_1.MongooseModule.forRoot(process.env.DB_URL ?? ''),
+            mongoose_1.MongooseModule.forRoot(process.env.DB_URL),
             mongoose_1.MongooseModule.forFeature([
                 { name: blog_schema_1.Blog.name, schema: blog_schema_1.BlogSchema },
                 { name: post_schema_1.Post.name, schema: post_schema_1.PostSchema },

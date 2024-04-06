@@ -151,12 +151,7 @@ export class BlogsService {
     const blog = await this.blogModel.findById(id).exec();
 
     if (!blog) {
-      throw new HttpException(
-        {
-          errorMessage: 'Not found',
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
     return (await blog.deleteOne()).acknowledged;
