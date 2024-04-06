@@ -69,9 +69,7 @@ let BlogsService = class BlogsService {
     async createPost(blogId, post) {
         const isValidId = blog_schema_1.Blog.validateId(blogId);
         if (!isValidId) {
-            throw new common_1.HttpException({
-                errorMessage: 'Invalid blog Id',
-            }, common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException('Invalid blog Id', common_1.HttpStatus.BAD_REQUEST);
         }
         const blog = await this.blogModel.findById(blogId).exec();
         if (!blog) {
@@ -88,20 +86,20 @@ let BlogsService = class BlogsService {
             await createdPost.save();
         }
         catch (exception) {
-            throw new common_1.HttpException({
-                errorMessage: exception,
-            }, common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException(exception, common_1.HttpStatus.BAD_REQUEST);
         }
         return createdPost;
     }
     async updateBlog(id, blogDto) {
+        const isValidId = blog_schema_1.Blog.validateId(id);
+        if (!isValidId) {
+            throw new common_1.HttpException('Invalid blog Id', common_1.HttpStatus.BAD_REQUEST);
+        }
         const blog = await this.blogModel.findOneAndUpdate({ _id: id }, blogDto, {
             new: true,
         });
         if (!blog) {
-            throw new common_1.HttpException({
-                errorMessage: 'Not found',
-            }, common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Not found', common_1.HttpStatus.NOT_FOUND);
         }
         const saved = await blog.save();
         return saved;
@@ -109,9 +107,7 @@ let BlogsService = class BlogsService {
     async deleteBlog(id) {
         const isValidId = blog_schema_1.Blog.validateId(id);
         if (!isValidId) {
-            throw new common_1.HttpException({
-                errorMessage: 'Invalid blog Id',
-            }, common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException('Invalid blog Id', common_1.HttpStatus.BAD_REQUEST);
         }
         const blog = await this.blogModel.findById(id).exec();
         if (!blog) {

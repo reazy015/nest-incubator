@@ -78,12 +78,7 @@ export class BlogsService {
     const isValidId = Blog.validateId(blogId);
 
     if (!isValidId) {
-      throw new HttpException(
-        {
-          errorMessage: 'Invalid blog Id',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Invalid blog Id', HttpStatus.BAD_REQUEST);
     }
 
     const blog = await this.blogModel.findById(blogId).exec();
@@ -106,29 +101,25 @@ export class BlogsService {
     try {
       await createdPost.save();
     } catch (exception) {
-      throw new HttpException(
-        {
-          errorMessage: exception,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException(exception, HttpStatus.BAD_REQUEST);
     }
 
     return createdPost;
   }
 
   async updateBlog(id: string, blogDto: CreateBlogDto): Promise<BlogDocument> {
+    const isValidId = Blog.validateId(id);
+
+    if (!isValidId) {
+      throw new HttpException('Invalid blog Id', HttpStatus.BAD_REQUEST);
+    }
+
     const blog = await this.blogModel.findOneAndUpdate({ _id: id }, blogDto, {
       new: true,
     });
 
     if (!blog) {
-      throw new HttpException(
-        {
-          errorMessage: 'Not found',
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
     const saved = await blog.save();
@@ -140,12 +131,7 @@ export class BlogsService {
     const isValidId = Blog.validateId(id);
 
     if (!isValidId) {
-      throw new HttpException(
-        {
-          errorMessage: 'Invalid blog Id',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Invalid blog Id', HttpStatus.BAD_REQUEST);
     }
 
     const blog = await this.blogModel.findById(id).exec();
