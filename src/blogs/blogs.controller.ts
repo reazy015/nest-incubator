@@ -72,6 +72,7 @@ export class BlogsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(BasicAuthGuard)
   async createBlog(@Body() blog: CreateBlogDto) {
     const res = await this.blogsService.createBlog(blog);
     return res;
