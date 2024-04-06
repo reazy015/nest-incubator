@@ -9,11 +9,13 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto, GetBlogsQueryDto } from './blogs.dto';
 import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('blogs')
 export class BlogsController {
@@ -68,6 +70,7 @@ export class BlogsController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
   async createBlog(@Body() blog: CreateBlogDto) {
     const res = await this.blogsService.createBlog(blog);
@@ -85,6 +88,7 @@ export class BlogsController {
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async updateBlog(
     @Param('id') id: string,
@@ -94,6 +98,7 @@ export class BlogsController {
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteBlog(@Param('id') id: string) {
     const deleted = await this.blogsService.deleteBlog(id);
