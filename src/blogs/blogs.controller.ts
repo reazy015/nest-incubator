@@ -69,7 +69,6 @@ export class BlogsController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createBlog(@Body() blog: CreateBlogDto) {

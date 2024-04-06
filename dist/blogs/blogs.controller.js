@@ -92,7 +92,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "getAllBlogsPosts", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
