@@ -37,15 +37,11 @@ let BlogsService = class BlogsService {
     async findBlogById(id) {
         const isValidId = blog_schema_1.Blog.validateId(id);
         if (!isValidId) {
-            throw new common_1.HttpException({
-                errorMessage: 'Invalid blog Id',
-            }, common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException('Invalid blog Id', common_1.HttpStatus.BAD_REQUEST);
         }
         const blog = await this.blogModel.findById(id).exec();
         if (!blog) {
-            throw new common_1.HttpException({
-                errorMessage: 'Not found',
-            }, common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Not found', common_1.HttpStatus.NOT_FOUND);
         }
         return blog;
     }

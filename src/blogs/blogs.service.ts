@@ -30,23 +30,13 @@ export class BlogsService {
     const isValidId = Blog.validateId(id);
 
     if (!isValidId) {
-      throw new HttpException(
-        {
-          errorMessage: 'Invalid blog Id',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Invalid blog Id', HttpStatus.BAD_REQUEST);
     }
 
     const blog = await this.blogModel.findById(id).exec();
 
     if (!blog) {
-      throw new HttpException(
-        {
-          errorMessage: 'Not found',
-        },
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
     return blog;
