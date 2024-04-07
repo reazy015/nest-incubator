@@ -40,10 +40,13 @@ export class AuthController {
   @Post('/login')
   @HttpCode(HttpStatus.OK)
   async loginUser(@Request() req, @Res({ passthrough: true }) res: Response) {
-    res.cookie('refreshToken', 'cookie_value', {
+    const { accessToken, refreshToken } = await this.authService.login(
+      req.user,
+    );
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
     });
-    return await this.authService.login(req.user);
+    return accessToken;
   }
 
   @UseGuards(JwtAuthGuard)

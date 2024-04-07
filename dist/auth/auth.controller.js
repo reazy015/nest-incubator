@@ -32,10 +32,11 @@ let AuthController = class AuthController {
         return confirmed;
     }
     async loginUser(req, res) {
-        res.cookie('refreshToken', 'cookie_value', {
+        const { accessToken, refreshToken } = await this.authService.login(req.user);
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
         });
-        return await this.authService.login(req.user);
+        return accessToken;
     }
     async getProfile(req) {
         return req.user;

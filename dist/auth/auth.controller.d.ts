@@ -9,9 +9,7 @@ export declare class AuthController {
     confirmRegistration(body: {
         code: string;
     }): Promise<boolean>;
-    loginUser(req: any, res: Response): Promise<{
-        accessToken: string;
-    }>;
+    loginUser(req: any, res: Response): Promise<string>;
     getProfile(req: any): Promise<any>;
     resendRegistrationEmail(body: EmailDto): Promise<void>;
 }

@@ -117,6 +117,7 @@ let AuthService = class AuthService {
     async login(user) {
         return {
             accessToken: this.jwtService.sign(user),
+            refreshToken: this.jwtService.sign(user),
         };
     }
 };

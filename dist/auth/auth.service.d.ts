@@ -44,5 +44,6 @@ export declare class AuthService {
         userId: string;
     }): Promise<{
         accessToken: string;
+        refreshToken: string;
     }>;
 }
