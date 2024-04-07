@@ -35,6 +35,7 @@ let AuthController = class AuthController {
         const { accessToken, refreshToken } = await this.authService.login(req.user);
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
+            secure: true,
         });
         return accessToken;
     }
