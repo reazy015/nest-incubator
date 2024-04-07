@@ -8,12 +8,14 @@ import {
 } from 'class-validator';
 
 export class CreateBlogDto {
+  @Transform(({ value }) => value?.trim())
   @MaxLength(15)
   @IsNotEmpty({
     message: 'Blog name can not be empty',
   })
   name: string;
 
+  @Transform(({ value }) => value?.trim())
   @MaxLength(500)
   @IsNotEmpty({
     message: 'Blog description can not be empty',

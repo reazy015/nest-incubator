@@ -16,6 +16,7 @@ class CreateBlogDto {
 }
 exports.CreateBlogDto = CreateBlogDto;
 __decorate([
+    (0, class_transformer_1.Transform)(({ value }) => value?.trim()),
     (0, class_validator_1.MaxLength)(15),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog name can not be empty',
@@ -23,6 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateBlogDto.prototype, "name", void 0);
 __decorate([
+    (0, class_transformer_1.Transform)(({ value }) => value?.trim()),
     (0, class_validator_1.MaxLength)(500),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog description can not be empty',
