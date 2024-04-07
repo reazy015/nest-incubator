@@ -37,7 +37,7 @@ let AuthController = class AuthController {
             httpOnly: true,
             secure: true,
         });
-        return accessToken;
+        return { accessToken };
     }
     async getProfile(req) {
         return req.user;
