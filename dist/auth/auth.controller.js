@@ -31,7 +31,10 @@ let AuthController = class AuthController {
         const confirmed = await this.authService.confirmUser(body.code);
         return confirmed;
     }
-    async loginUser(req) {
+    async loginUser(req, res) {
+        res.cookie('refreshToken', 'cookie_value', {
+            httpOnly: true,
+        });
         return await this.authService.login(req.user);
     }
     async getProfile(req) {
@@ -63,8 +66,9 @@ __decorate([
     (0, common_1.Post)('/login'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginUser", null);
 __decorate([

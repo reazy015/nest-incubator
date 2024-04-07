@@ -6,13 +6,15 @@ import {
   HttpStatus,
   Post,
   Request,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/users/users.dto';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
-import { EmailDto, LoginDto } from 'src/auth/auth.dto';
+import { EmailDto } from 'src/auth/auth.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -37,7 +39,10 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   @HttpCode(HttpStatus.OK)
-  async loginUser(@Request() req) {
+  async loginUser(@Request() req, @Res({ passthrough: true }) res: Response) {
+    res.cookie('refreshToken', 'cookie_value', {
+      httpOnly: true,
+    });
     return await this.authService.login(req.user);
   }
 
