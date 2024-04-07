@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Post, PostDocument, PostSchema } from '../posts/post.schema';
+import { IsEmail, IsUrl } from 'class-validator';
 
 @Schema({
   toJSON: {

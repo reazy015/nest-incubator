@@ -28,6 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateBlogDto.prototype, "description", void 0);
 __decorate([
+    (0, class_validator_1.IsUrl)(undefined, { message: 'websiteUrl is not valid.' }),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog url can not be empty',
     }),

@@ -1,13 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsIn,
-  IsInt,
-  IsNotEmpty,
-  IsNumberString,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
 
 export class CreateBlogDto {
   @IsNotEmpty({
@@ -20,6 +12,7 @@ export class CreateBlogDto {
   })
   description: string;
 
+  @IsUrl(undefined, { message: 'websiteUrl is not valid.' })
   @IsNotEmpty({
     message: 'Blog url can not be empty',
   })
