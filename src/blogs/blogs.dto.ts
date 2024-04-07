@@ -1,17 +1,26 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
+import {
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateBlogDto {
+  @MaxLength(15)
   @IsNotEmpty({
     message: 'Blog name can not be empty',
   })
   name: string;
 
+  @MaxLength(500)
   @IsNotEmpty({
     message: 'Blog description can not be empty',
   })
   description: string;
 
+  @MaxLength(100)
   @IsUrl(undefined, { message: 'websiteUrl is not valid.' })
   @IsNotEmpty({
     message: 'Blog url can not be empty',

@@ -16,18 +16,21 @@ class CreateBlogDto {
 }
 exports.CreateBlogDto = CreateBlogDto;
 __decorate([
+    (0, class_validator_1.MaxLength)(15),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog name can not be empty',
     }),
     __metadata("design:type", String)
 ], CreateBlogDto.prototype, "name", void 0);
 __decorate([
+    (0, class_validator_1.MaxLength)(500),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog description can not be empty',
     }),
     __metadata("design:type", String)
 ], CreateBlogDto.prototype, "description", void 0);
 __decorate([
+    (0, class_validator_1.MaxLength)(100),
     (0, class_validator_1.IsUrl)(undefined, { message: 'websiteUrl is not valid.' }),
     (0, class_validator_1.IsNotEmpty)({
         message: 'Blog url can not be empty',
