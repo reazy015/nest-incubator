@@ -32,6 +32,10 @@ let CommentsService = class CommentsService {
         });
         return newComment.save();
     }
+    async getCommentById(id) {
+        const comment = await this.commentModel.findById(id, { postId: 0 });
+        return comment;
+    }
     async getAllCommentsByPostId(postId) {
         const comments = await this.commentModel.find({ postId }, { postId: 0 });
         return comments;

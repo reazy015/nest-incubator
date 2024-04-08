@@ -21,18 +21,13 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { CommentDocument } from 'src/comments/comments.schema';
-export declare class CommentsService {
-    private commentModel;
-    constructor(commentModel: Model<CommentDocument>);
-    createComment({ userId, userLogin, content, postId, }: {
-        userId: string;
-        userLogin: string;
-        content: string;
-        postId: string;
-    }): Promise<CommentDocument>;
-    getCommentById(id: string): Promise<CommentDocument>;
-    getAllCommentsByPostId(postId: string): Promise<CommentDocument[]>;
+import { CommentsService } from './comments.service';
+export declare class CommentsController {
+    private readonly commentsService;
+    constructor(commentsService: CommentsService);
+    getCommentById(id: string): Promise<import("mongoose").Document<unknown, {}, Omit<import("./comments.schema").Comment, "postId">> & Omit<import("./comments.schema").Comment, "postId"> & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }

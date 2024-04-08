@@ -32,6 +32,7 @@ const jwt_strategy_1 = require("./auth/jwt.strategy");
 const basic_strategy_1 = require("./auth/basic.strategy");
 const comments_service_1 = require("./comments/comments.service");
 const comments_schema_1 = require("./comments/comments.schema");
+const comments_controller_1 = require("./comments/comments.controller");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -60,6 +61,7 @@ exports.AppModule = AppModule = __decorate([
             testing_controller_1.TestingController,
             users_controller_1.UsersController,
             auth_controller_1.AuthController,
+            comments_controller_1.CommentsController,
         ],
         providers: [
             app_service_1.AppService,

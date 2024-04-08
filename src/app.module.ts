@@ -23,6 +23,7 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { BasicStrategy } from 'src/auth/basic.strategy';
 import { CommentsService } from './comments/comments.service';
 import { Comment, CommentSchema } from 'src/comments/comments.schema';
+import { CommentsController } from './comments/comments.controller';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { Comment, CommentSchema } from 'src/comments/comments.schema';
     TestingController,
     UsersController,
     AuthController,
+    CommentsController,
   ],
   providers: [
     AppService,
