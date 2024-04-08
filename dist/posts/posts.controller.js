@@ -14,11 +14,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const comments_service_1 = require("../comments/comments.service");
 const posts_dto_1 = require("./posts.dto");
 const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
-    constructor(postsService) {
+    constructor(postsService, commentsService) {
         this.postsService = postsService;
+        this.commentsService = commentsService;
     }
     async getAllPosts(query) {
         const posts = await this.postsService.getAllPosts(query);
@@ -38,6 +41,29 @@ let PostsController = class PostsController {
     async createPost(post) {
         const created = await this.postsService.createPost(post);
         return created;
+    }
+    async getAllPostComments(id) {
+        const comments = await this.commentsService.getAllCommentsByPostId(id);
+        return comments;
+    }
+    async createComment(id, comment, req) {
+        const created = await this.commentsService.createComment({
+            userId: req.user.userId,
+            userLogin: req.user.login,
+            content: comment.content,
+            postId: id,
+        });
+        const { id: commentId, commentatorInfo, content, likesInfo, createdAt, } = created;
+        return {
+            id: commentId,
+            commentatorInfo,
+            content,
+            likesInfo,
+            createdAt,
+        };
+    }
+    async updateComment() {
+        return false;
     }
     async updatePost(post, id) {
         const updated = await this.postsService.updatePost(id, post);
@@ -74,6 +100,33 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "createPost", null);
 __decorate([
+    (0, common_1.Get)('/:id/comments'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "getAllPostComments", null);
+__decorate([
+    (0, common_1.Post)('/:id/comments'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, posts_dto_1.CreateCommentDto, Object]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "createComment", null);
+__decorate([
+    (0, common_1.Put)('/:id/comments'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "updateComment", null);
+__decorate([
     (0, common_1.Put)('/:id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     __param(0, (0, common_1.Body)()),
@@ -92,6 +145,7 @@ __decorate([
 ], PostsController.prototype, "deleteSinglePostById", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
-    __metadata("design:paramtypes", [posts_service_1.PostsService])
+    __metadata("design:paramtypes", [posts_service_1.PostsService,
+        comments_service_1.CommentsService])
 ], PostsController);
 //# sourceMappingURL=posts.controller.js.map

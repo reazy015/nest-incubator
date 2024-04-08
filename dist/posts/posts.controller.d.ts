@@ -23,11 +23,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
+import { CommentsService } from 'src/comments/comments.service';
+import { CreateCommentDto, CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
 export declare class PostsController {
     private readonly postsService;
-    constructor(postsService: PostsService);
+    private readonly commentsService;
+    constructor(postsService: PostsService, commentsService: CommentsService);
     getAllPosts(query: GetPostsQueryDto): Promise<{
         pagesCount: number;
         page: number;
@@ -49,6 +51,24 @@ export declare class PostsController {
     }): Promise<import("mongoose").Document<unknown, {}, import("./post.schema").Post> & import("./post.schema").Post & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    getAllPostComments(id: string): Promise<(import("mongoose").Document<unknown, {}, Omit<import("../comments/comments.schema").Comment, "postId">> & Omit<import("../comments/comments.schema").Comment, "postId"> & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
+    createComment(id: string, comment: CreateCommentDto, req: any): Promise<{
+        id: any;
+        commentatorInfo: {
+            userId: string;
+            userLogin: string;
+        };
+        content: string;
+        likesInfo: {
+            likesCount: number;
+            dislikesCount: number;
+            myStatus: string;
+        };
+        createdAt: string;
+    }>;
+    updateComment(): Promise<boolean>;
     updatePost(post: CreatePostDto & {
         blogId: string;
     }, id: string): Promise<boolean>;

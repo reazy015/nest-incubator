@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsNotEmpty, IsOptional, MaxLength, Min } from 'class-validator';
+import {
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty({
@@ -18,6 +24,15 @@ export class CreatePostDto {
     message: 'Post url can not be empty',
   })
   @MaxLength(1000)
+  content: string;
+}
+
+export class CreateCommentDto {
+  @IsNotEmpty({
+    message: 'Comment content can no be empty',
+  })
+  @MaxLength(300, { message: 'Max comment length 300 symbols' })
+  @MinLength(20, { message: 'Min comment length 20 symbols' })
   content: string;
 }
 

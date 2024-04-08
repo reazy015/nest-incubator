@@ -21,6 +21,8 @@ import { LocalStrategy } from 'src/auth/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { BasicStrategy } from 'src/auth/basic.strategy';
+import { CommentsService } from './comments/comments.service';
+import { Comment, CommentSchema } from 'src/comments/comments.schema';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { BasicStrategy } from 'src/auth/basic.strategy';
       { name: Blog.name, schema: BlogSchema },
       { name: Post.name, schema: PostSchema },
       { name: User.name, schema: UserSchema },
+      { name: Comment.name, schema: CommentSchema },
     ]),
     JwtModule.register({
       secret: process.env.SECRET_KEY,
@@ -57,6 +60,7 @@ import { BasicStrategy } from 'src/auth/basic.strategy';
     LocalStrategy,
     JwtStrategy,
     BasicStrategy,
+    CommentsService,
   ],
 })
 export class AppModule {}

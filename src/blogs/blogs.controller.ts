@@ -15,7 +15,6 @@ import { BlogsService } from './blogs.service';
 import { CreateBlogDto, GetBlogsQueryDto } from './blogs.dto';
 import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BasicAuthGuard } from 'src/auth/basic-auth.guard';
 
 @Controller('blogs')

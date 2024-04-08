@@ -9,13 +9,24 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
-import { CreatePostDto, GetPostsQueryDto } from 'src/posts/posts.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CommentsService } from 'src/comments/comments.service';
+import {
+  CreateCommentDto,
+  CreatePostDto,
+  GetPostsQueryDto,
+} from 'src/posts/posts.dto';
 import { PostsService } from 'src/posts/posts.service';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    private readonly commentsService: CommentsService,
+  ) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -46,6 +57,54 @@ export class PostsController {
     const created = await this.postsService.createPost(post);
 
     return created;
+  }
+
+  @Get('/:id/comments')
+  @HttpCode(HttpStatus.CREATED)
+  async getAllPostComments(@Param('id') id: string) {
+    const comments = await this.commentsService.getAllCommentsByPostId(id);
+
+    return comments;
+  }
+
+  @Post('/:id/comments')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  async createComment(
+    @Param('id') id: string,
+    @Body() comment: CreateCommentDto,
+    @Request() req,
+  ) {
+    const created = await this.commentsService.createComment({
+      userId: req.user.userId,
+      userLogin: req.user.login,
+      content: comment.content,
+      postId: id,
+    });
+
+    const {
+      id: commentId,
+      commentatorInfo,
+      content,
+      likesInfo,
+      createdAt,
+    } = created;
+
+    return {
+      id: commentId,
+      commentatorInfo,
+      content,
+      likesInfo,
+      createdAt,
+    };
+  }
+
+  @Put('/:id/comments')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  async updateComment() {
+    // @Request() req, // @Body() comment: CreateCommentDto, // @Param('id') id: string,
+    return false;
   }
 
   @Put('/:id')

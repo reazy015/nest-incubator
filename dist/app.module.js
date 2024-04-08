@@ -30,6 +30,8 @@ const local_strategy_1 = require("./auth/local.strategy");
 const jwt_1 = require("@nestjs/jwt");
 const jwt_strategy_1 = require("./auth/jwt.strategy");
 const basic_strategy_1 = require("./auth/basic.strategy");
+const comments_service_1 = require("./comments/comments.service");
+const comments_schema_1 = require("./comments/comments.schema");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,6 +46,7 @@ exports.AppModule = AppModule = __decorate([
                 { name: blog_schema_1.Blog.name, schema: blog_schema_1.BlogSchema },
                 { name: post_schema_1.Post.name, schema: post_schema_1.PostSchema },
                 { name: users_schema_1.User.name, schema: users_schema_1.UserSchema },
+                { name: comments_schema_1.Comment.name, schema: comments_schema_1.CommentSchema },
             ]),
             jwt_1.JwtModule.register({
                 secret: process.env.SECRET_KEY,
@@ -69,6 +72,7 @@ exports.AppModule = AppModule = __decorate([
             local_strategy_1.LocalStrategy,
             jwt_strategy_1.JwtStrategy,
             basic_strategy_1.BasicStrategy,
+            comments_service_1.CommentsService,
         ],
     })
 ], AppModule);
