@@ -172,7 +172,7 @@ export class PostsService {
       throw new BadRequestException('Invalid post Id');
     }
 
-    const post = await this.postModel.find({ id });
+    const post = await this.postModel.findById(id);
 
     if (!post) {
       throw new NotFoundException('Post not found');

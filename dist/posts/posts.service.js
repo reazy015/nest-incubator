@@ -118,7 +118,7 @@ let PostsService = class PostsService {
         if (!isValidPostId) {
             throw new common_1.BadRequestException('Invalid post Id');
         }
-        const post = await this.postModel.find({ id });
+        const post = await this.postModel.findById(id);
         if (!post) {
             throw new common_1.NotFoundException('Post not found');
         }
