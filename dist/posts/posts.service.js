@@ -113,6 +113,16 @@ let PostsService = class PostsService {
             return true;
         }
     }
+    async setPostLikeStatus(id, likeStatus) {
+        const isValidPostId = post_schema_1.Post.validateId(id);
+        if (!isValidPostId) {
+            throw new common_1.BadRequestException('Invalid post Id');
+        }
+        const post = await this.postModel.find({ id });
+        if (!post) {
+            throw new common_1.NotFoundException('Post not found');
+        }
+    }
     async getTotalPostsCount(blogId) {
         if (blogId) {
             return await this.postModel.find({ blogId }).countDocuments();

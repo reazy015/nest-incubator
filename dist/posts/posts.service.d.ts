@@ -45,6 +45,7 @@ export declare class PostsService {
     updatePost(postId: string, body: CreatePostDto & {
         blogId: string;
     }): Promise<boolean>;
+    setPostLikeStatus(id: string, likeStatus: string): Promise<void>;
     getTotalPostsCount(blogId?: string): Promise<number>;
     deleteSinglePostById(id: string): Promise<boolean>;
     deleteAllPosts(): Promise<boolean>;

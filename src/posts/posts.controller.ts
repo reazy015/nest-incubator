@@ -110,8 +110,14 @@ export class PostsController {
   @Put('/:id/like-status')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
-  async setPostLikeStatus() {
-    return false;
+  async setPostLikeStatus(
+    @Param(':id') id: string,
+    @Body() { likeStatus }: { likeStatus: string },
+  ) {
+    const likeStatusSet = await this.postsService.setPostLikeStatus(
+      id,
+      likeStatus,
+    );
   }
 
   @Put('/:id')

@@ -65,8 +65,8 @@ let PostsController = class PostsController {
     async updateComment() {
         return false;
     }
-    async setPostLikeStatus() {
-        return false;
+    async setPostLikeStatus(id, { likeStatus }) {
+        const likeStatusSet = await this.postsService.setPostLikeStatus(id, likeStatus);
     }
     async updatePost(post, id) {
         const updated = await this.postsService.updatePost(id, post);
@@ -133,8 +133,10 @@ __decorate([
     (0, common_1.Put)('/:id/like-status'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)(':id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "setPostLikeStatus", null);
 __decorate([

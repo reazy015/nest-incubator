@@ -69,7 +69,9 @@ export declare class PostsController {
         createdAt: string;
     }>;
     updateComment(): Promise<boolean>;
-    setPostLikeStatus(): Promise<boolean>;
+    setPostLikeStatus(id: string, { likeStatus }: {
+        likeStatus: string;
+    }): Promise<void>;
     updatePost(post: CreatePostDto & {
         blogId: string;
     }, id: string): Promise<boolean>;

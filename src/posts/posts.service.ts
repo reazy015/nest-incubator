@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from '../blogs/blog.schema';
 import { Model } from 'mongoose';
@@ -156,6 +162,20 @@ export class PostsService {
       );
     } else {
       return true;
+    }
+  }
+
+  async setPostLikeStatus(id: string, likeStatus: string) {
+    const isValidPostId = Post.validateId(id);
+
+    if (!isValidPostId) {
+      throw new BadRequestException('Invalid post Id');
+    }
+
+    const post = await this.postModel.find({ id });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
     }
   }
 
