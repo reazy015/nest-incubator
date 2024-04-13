@@ -107,6 +107,13 @@ export class PostsController {
     return false;
   }
 
+  @Put('/:id/like-status')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
+  async setPostLikeStatus() {
+    return false;
+  }
+
   @Put('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async updatePost(
